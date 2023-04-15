@@ -16,11 +16,11 @@ function YourAccesories({
   updateBalances,
   setUpdateBalances,
   nft,
-  fancyLoogiesNfts,
-  selectedFancyLoogie,
+  fancyMiloogysNfts,
+  selectedFancyMiloogy,
   selectedNfts,
   setSelectedNfts,
-  setFancyLoogiePreviewActiveTab,
+  setFancyMiloogyPreviewActiveTab,
 }) {
   const [nftBalance, setNftBalance] = useState(0);
   const [yourNftBalance, setYourNftBalance] = useState(0);
@@ -92,6 +92,8 @@ function YourAccesories({
     updateYourCollectibles();
   }, [address, yourNftBalance]);
 
+  console.log("fancyMiloogysNfts", fancyMiloogysNfts);
+
   return (
     <>
       <div style={{ width: 515, marginTop: 32, paddingBottom: 32 }}>
@@ -130,9 +132,9 @@ function YourAccesories({
                     <div>
                       <div style={{ height: 45 }}>
                         <span style={{ fontSize: 18, marginRight: 8 }}>{item.name}</span>
-                        { fancyLoogiesNfts &&
-                          fancyLoogiesNfts[selectedFancyLoogie] &&
-                          fancyLoogiesNfts[selectedFancyLoogie][readContracts[nft].address] == 0 && (
+                        { fancyMiloogysNfts &&
+                          fancyMiloogysNfts[selectedFancyMiloogy] &&
+                          fancyMiloogysNfts[selectedFancyMiloogy][readContracts[nft].address] == 0 && (
                           <Button
                             style={{ marginRight: 10 }}
                             disabled={ selectedNfts[nft] == id }
@@ -141,7 +143,7 @@ function YourAccesories({
                                 ...prevState,
                                 [nft]: id,
                               }));
-                              setFancyLoogiePreviewActiveTab("preview-"+nft);
+                              setFancyMiloogyPreviewActiveTab("preview-"+nft);
                             }}
                           >
                             { selectedNfts[nft] == id ? "Previewing" : "Preview" }

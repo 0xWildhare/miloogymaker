@@ -9,7 +9,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  const loogies = await deploy("Loogies", {
+  const miloogys = await deploy("Miloogys", {
     from: deployer,
     log: true,
   });
@@ -33,18 +33,18 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     from: deployer,
     log: true,
   });
-
-  await deploy("FancyLoogie", {
+/*
+  await deploy("FancyMiloogy", {
     from: deployer,
-    args: [loogies.address],
+    args: [miloogys.address],
     log: true,
   });
-
-  const FancyLoogie = await ethers.getContract("FancyLoogie", deployer);
-  await FancyLoogie.addNft(bow.address);
-  await FancyLoogie.addNft(mustache.address);
-  await FancyLoogie.addNft(contactLenses.address);
-  await FancyLoogie.addNft(eyelash.address);
+*/
+  const Miloogys = await ethers.getContract("Miloogys", deployer);
+  await Miloogys.addNft(bow.address);
+  await Miloogys.addNft(mustache.address);
+  await Miloogys.addNft(contactLenses.address);
+  await Miloogys.addNft(eyelash.address);
 
   /*
     To take ownership of yourContract using the ownable library uncomment next line and add the 

@@ -31,7 +31,7 @@ contract Eyelash is ERC721Enumerable {
   mapping (uint256 => bytes3) public color;
   mapping (uint256 => bytes3) public rareColor;
 
-  constructor() ERC721("Loogie Eyelash", "LOOGEL") {
+  constructor() ERC721("Miloogy Eyelash", "LOOGEL") {
     // RELEASE THE LOOGIE EYELASH!
   }
 
@@ -74,10 +74,10 @@ contract Eyelash is ERC721Enumerable {
                     bytes(
                           abi.encodePacked(
                               '{"name":"',
-                              'Loogie Eyelash #',id.toString(),
+                              'Miloogy Eyelash #',id.toString(),
                               '", "description":"',
-                              'This Loogie Eyelash has length ',length[id].toString(),', color #',color[id].toColor(),' and middle eyelash color #',rareColor[id].toColor(),'!!!',
-                              '", "external_url":"https://www.fancyloogies.com/eyelash/',
+                              'This Miloogy Eyelash has length ',length[id].toString(),', color #',color[id].toColor(),' and middle eyelash color #',rareColor[id].toColor(),'!!!',
+                              '", "external_url":"https://www.fancymiloogys.com/eyelash/',
                               id.toString(),
                               '", "attributes": [{"trait_type": "length", "value": "',
                               length[id].toString(),
@@ -107,7 +107,7 @@ contract Eyelash is ERC721Enumerable {
     ));
   }
 
-  function renderLeftEyelash(uint256 id) internal view returns (string memory) {
+  function renderTokenByIdBack(uint256 id) public view returns (string memory) {
     uint256[4] memory lengths = [length[id], length[id]-3, length[id]-4, length[id]-3];
 
     return string(abi.encodePacked(
@@ -119,7 +119,7 @@ contract Eyelash is ERC721Enumerable {
     ));
   }
 
-  function renderRightEyelash(uint256 id) internal view returns (string memory) {
+  function renderTokenByIdFront(uint256 id) public view returns (string memory) {
     uint256[4] memory lengths = [length[id]+12, length[id]+10, length[id]+11, length[id]+13];
 
     return string(abi.encodePacked(
@@ -135,8 +135,8 @@ contract Eyelash is ERC721Enumerable {
   function renderTokenById(uint256 id) public view returns (string memory) {
     return string(abi.encodePacked(
       '<g class="eyelash">',
-        renderLeftEyelash(id),
-        renderRightEyelash(id),
+        renderTokenByIdBack(id),
+        renderTokenByIdFront(id),
       '</g>'
       ));
   }

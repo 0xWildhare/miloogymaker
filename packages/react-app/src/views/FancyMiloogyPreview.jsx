@@ -6,7 +6,7 @@ import { Address, AddressInput } from "../components";
 import { ethers } from "ethers";
 const { TabPane } = Tabs;
 
-function FancyLoogiePreview({
+function FancyMiloogyPreview({
   DEBUG,
   readContracts,
   writeContracts,
@@ -16,22 +16,22 @@ function FancyLoogiePreview({
   setUpdateBalances,
   nfts,
   nftsSvg,
-  fancyLoogiesNfts,
-  selectedFancyLoogie,
-  selectedFancyLoogiePreview,
-  setSelectedFancyLoogiePreview,
+  fancyMiloogysNfts,
+  selectedFancyMiloogy,
+  selectedFancyMiloogyPreview,
+  setSelectedFancyMiloogyPreview,
   selectedNfts,
   setSelectedNfts,
-  setFancyLoogiesNfts,
-  fancyLoogiePreviewActiveTab,
-  setFancyLoogiePreviewActiveTab,
+  setFancyMiloogysNfts,
+  fancyMiloogyPreviewActiveTab,
+  setFancyMiloogyPreviewActiveTab,
 }) {
   useEffect(() => {
     const updatePreview = async () => {
       if (DEBUG) console.log("Updating preview...");
-      if (selectedFancyLoogie) {
+      if (selectedFancyMiloogy) {
         let nftUpdate = {};
-        const loogieSvg = await readContracts.FancyLoogie.renderTokenById(selectedFancyLoogie);
+        const loogieSvg = await readContracts.Miloogys.renderTokenById(selectedFancyMiloogy);
         let nftsSvg = "";
         for (const nft of nfts) {
           if (selectedNfts[nft]) {
@@ -39,31 +39,31 @@ function FancyLoogiePreview({
           }
           const svg =
             '<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">' + loogieSvg + nftsSvg + "</svg>";
-          setSelectedFancyLoogiePreview(svg);
+          setSelectedFancyMiloogyPreview(svg);
         }
       } else {
-        setSelectedFancyLoogiePreview("");
+        setSelectedFancyMiloogyPreview("");
       }
     };
     updatePreview();
-  }, [address, selectedFancyLoogie, selectedNfts, updateBalances]);
+  }, [address, selectedFancyMiloogy, selectedNfts, updateBalances]);
 
   return (
     <>
-      {selectedFancyLoogiePreview ? (
+      {selectedFancyMiloogyPreview ? (
         <div class="fancy-loogie-preview">
           <Card
             style={{ width: 515 }}
             title={
               <div style={{ height: 45 }}>
-                <span style={{ fontSize: 18, marginRight: 8 }}>Selected FancyLoogie #{selectedFancyLoogie}</span>
+                <span style={{ fontSize: 18, marginRight: 8 }}>Selected FancyMiloogy #{selectedFancyMiloogy}</span>
               </div>
             }
           >
-            <div dangerouslySetInnerHTML={{ __html: selectedFancyLoogiePreview }}></div>
+            <div dangerouslySetInnerHTML={{ __html: selectedFancyMiloogyPreview }}></div>
             <Tabs
-              activeKey={fancyLoogiePreviewActiveTab}
-              onChange={tab => setFancyLoogiePreviewActiveTab(tab)}
+              activeKey={fancyMiloogyPreviewActiveTab}
+              onChange={tab => setFancyMiloogyPreviewActiveTab(tab)}
               type="card"
             >
               {nfts.map(function (nft) {
@@ -77,19 +77,19 @@ function FancyLoogiePreview({
                     }
                     key={"preview-" + nft}
                   >
-                    { fancyLoogiesNfts &&
-                      fancyLoogiesNfts[selectedFancyLoogie] &&
-                      fancyLoogiesNfts[selectedFancyLoogie][readContracts[nft].address] > 0 ? (
+                    { fancyMiloogysNfts &&
+                      fancyMiloogysNfts[selectedFancyMiloogy] &&
+                      fancyMiloogysNfts[selectedFancyMiloogy][readContracts[nft].address] > 0 ? (
                         <div>
-                          Wearing {nft} #{fancyLoogiesNfts[selectedFancyLoogie][readContracts[nft].address]}
+                          Wearing {nft} #{fancyMiloogysNfts[selectedFancyMiloogy][readContracts[nft].address]}
                           <Button
                             className="action-inline-button"
                             onClick={() => {
-                              tx(writeContracts.FancyLoogie.removeNftFromLoogie(readContracts[nft].address, selectedFancyLoogie), function (transaction) {
-                                setFancyLoogiesNfts(prevState => ({
+                              tx(writeContracts.Miloogys.removeNftFromMiloogy(readContracts[nft].address, selectedFancyMiloogy), function (transaction) {
+                                setFancyMiloogysNfts(prevState => ({
                                   ...prevState,
-                                  [selectedFancyLoogie]: {
-                                    ...prevState[selectedFancyLoogie],
+                                  [selectedFancyMiloogy]: {
+                                    ...prevState[selectedFancyMiloogy],
                                     [readContracts[nft].address]: 0
                                   }
                                 }));
@@ -105,20 +105,21 @@ function FancyLoogiePreview({
                           {selectedNfts[nft] ? (
                             <div>
                               <span>Previewing #{selectedNfts[nft]}</span>
-                              { fancyLoogiesNfts &&
-                                fancyLoogiesNfts[selectedFancyLoogie] &&
-                                fancyLoogiesNfts[selectedFancyLoogie][readContracts[nft].address] == 0 && (
+                              { fancyMiloogysNfts &&
+                                fancyMiloogysNfts[selectedFancyMiloogy] &&
+                                fancyMiloogysNfts[selectedFancyMiloogy][readContracts[nft].address] == 0 && (
+                                
                                 <Button
                                   type="primary"
                                   className="action-inline-button"
                                   onClick={() => {
                                     const tankIdInBytes =
-                                      "0x" + parseInt(selectedFancyLoogie).toString(16).padStart(64, "0");
+                                      "0x" + parseInt(selectedFancyMiloogy).toString(16).padStart(64, "0");
 
                                     tx(
                                       writeContracts[nft]["safeTransferFrom(address,address,uint256,bytes)"](
                                         address,
-                                        readContracts.FancyLoogie.address,
+                                        readContracts.Miloogys.address,
                                         selectedNfts[nft],
                                         tankIdInBytes,
                                       ),
@@ -127,10 +128,10 @@ function FancyLoogiePreview({
                                           ...prevState,
                                           [nft]: null,
                                         }));
-                                        setFancyLoogiesNfts(prevState => ({
+                                        setFancyMiloogysNfts(prevState => ({
                                           ...prevState,
-                                          [selectedFancyLoogie]: {
-                                            ...prevState[selectedFancyLoogie],
+                                          [selectedFancyMiloogy]: {
+                                            ...prevState[selectedFancyMiloogy],
                                             [readContracts[nft].address]: selectedNfts[nft]
                                           }
                                         }));
@@ -161,7 +162,7 @@ function FancyLoogiePreview({
             style={{ width: 515 }}
             title={
               <div style={{ height: 45 }}>
-                <span style={{ fontSize: 18, marginRight: 8 }}>No FancyLoogie selected</span>
+                <span style={{ fontSize: 18, marginRight: 8 }}>No FancyMiloogy selected</span>
               </div>
             }
           >
@@ -179,7 +180,7 @@ function FancyLoogiePreview({
               </g>
             </svg>
             <div style={{ height: 90 }}>
-              Select a FancyLoogie from the <strong>FancyLoogies</strong> Tab to wear.
+              Select a FancyMiloogy from the <strong>FancyMiloogys</strong> Tab to wear.
             </div>
           </Card>
         </div>
@@ -188,4 +189,4 @@ function FancyLoogiePreview({
   );
 }
 
-export default FancyLoogiePreview;
+export default FancyMiloogyPreview;

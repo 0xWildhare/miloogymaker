@@ -5,7 +5,7 @@ import { DownOutlined } from "@ant-design/icons";
 import { Address, AddressInput } from "../components";
 import { ethers } from "ethers";
 
-function YourFancyLoogies({
+function YourFancyMiloogys({
   DEBUG,
   readContracts,
   writeContracts,
@@ -17,58 +17,60 @@ function YourFancyLoogies({
   updateBalances,
   setUpdateBalances,
   address,
-  fancyLoogieContracts,
-  fancyLoogiesNfts,
-  setFancyLoogiesNfts,
-  selectedFancyLoogie,
-  setSelectedFancyLoogie,
+  fancyMiloogyContracts,
+  fancyMiloogysNfts,
+  setFancyMiloogysNfts,
+  selectedFancyMiloogy,
+  setSelectedFancyMiloogy,
   nfts,
   setSelectedNfts,
 }) {
-  const [fancyLoogieBalance, setFancyLoogieBalance] = useState(0);
-  const [yourFancyLoogieBalance, setYourFancyLoogieBalance] = useState(0);
-  const [yourFancyLoogies, setYourFancyLoogies] = useState();
+  const [fancyMiloogyBalance, setFancyMiloogyBalance] = useState(0);
+  const [yourFancyMiloogyBalance, setYourFancyMiloogyBalance] = useState(0);
+  const [yourFancyMiloogys, setYourFancyMiloogys] = useState();
   const [transferToAddresses, setTransferToAddresses] = useState({});
-  const [loadingFancyLoogies, setLoadingFancyLoogies] = useState(true);
+  const [loadingFancyMiloogys, setLoadingFancyMiloogys] = useState(true);
   const history = useHistory();
 
   useEffect(() => {
     const updateBalances = async () => {
       if (DEBUG) console.log("Updating balances...");
-      if (readContracts.FancyLoogie) {
-        const fancyLoogieNewBalance = await readContracts.FancyLoogie.balanceOf(address);
-        if (DEBUG) console.log("NFT: FancyLoogie - Balance: ", fancyLoogieNewBalance);
-        const yourFancyLoogieNewBalance = fancyLoogieNewBalance && fancyLoogieNewBalance.toNumber && fancyLoogieNewBalance.toNumber();
-        setFancyLoogieBalance(fancyLoogieNewBalance);
-        setYourFancyLoogieBalance(yourFancyLoogieNewBalance);
+      if (readContracts.FancyMiloogy) {
+        const fancyMiloogyNewBalance = await readContracts.Miloogys.balanceOf(address);
+        if (DEBUG) console.log("NFT: FancyMiloogy - Balance: ", fancyMiloogyNewBalance);
+        const yourFancyMiloogyNewBalance = fancyMiloogyNewBalance && fancyMiloogyNewBalance.toNumber && fancyMiloogyNewBalance.toNumber();
+        setFancyMiloogyBalance(fancyMiloogyNewBalance);
+        setYourFancyMiloogyBalance(yourFancyMiloogyNewBalance);
       } else {
         if (DEBUG) console.log("Contracts not defined yet.");
       }
     };
     updateBalances();
-  }, [address, readContracts.FancyLoogie, updateBalances]);
+  }, [address, readContracts.FancyMiloogy, updateBalances]);
 
   useEffect(() => {
     const updateYourCollectibles = async () => {
-      setLoadingFancyLoogies(true);
-      const fancyLoogieUpdate = [];
-      const fancyLoogiesNftsUpdate = {};
-      for (let tokenIndex = 0; tokenIndex < yourFancyLoogieBalance; tokenIndex++) {
+      setLoadingFancyMiloogys(true);
+      const fancyMiloogyUpdate = [];
+      const fancyMiloogysNftsUpdate = {};
+      for (let tokenIndex = 0; tokenIndex < yourFancyMiloogyBalance; tokenIndex++) {
         try {
-          const tokenId = await readContracts.FancyLoogie.tokenOfOwnerByIndex(address, tokenIndex);
-          if (DEBUG) console.log("Getting FancyLoogie tokenId: ", tokenId);
-          const tokenURI = await readContracts.FancyLoogie.tokenURI(tokenId);
+          const tokenId = await readContracts.Miloogys.tokenOfOwnerByIndex(address, tokenIndex);
+          if (DEBUG) console.log("Getting FancyMiloogy tokenId: ", tokenId);
+          const tokenURI = await readContracts.Miloogys.tokenURI(tokenId);
           if (DEBUG) console.log("tokenURI: ", tokenURI);
           const jsonManifestString = atob(tokenURI.substring(29));
 
           try {
             const jsonManifest = JSON.parse(jsonManifestString);
-            fancyLoogieUpdate.push({ id: tokenId, uri: tokenURI, owner: address, ...jsonManifest });
-            fancyLoogiesNftsUpdate[tokenId] = {};
-            for (let contractIndex = 0; contractIndex < fancyLoogieContracts.length; contractIndex++) {
-              const contractAddress = fancyLoogieContracts[contractIndex];
-              const nftId = await readContracts.FancyLoogie.nftId(contractAddress, tokenId);
-              fancyLoogiesNftsUpdate[tokenId][contractAddress] = nftId.toString();
+            fancyMiloogyUpdate.push({ id: tokenId, uri: tokenURI, owner: address, ...jsonManifest });
+            fancyMiloogysNftsUpdate[tokenId] = {};
+            if (DEBUG) console.log("fancyMiloogyContracts: ", fancyMiloogyContracts);
+            for (let contractIndex = 0; contractIndex < fancyMiloogyContracts.length; contractIndex++) {
+              const contractAddress = fancyMiloogyContracts[contractIndex];
+              const nftId = await readContracts.Miloogys.nftId(contractAddress, tokenId);
+              fancyMiloogysNftsUpdate[tokenId][contractAddress] = nftId.toString();
+              if (DEBUG) console.log("fancyMiloogysNftsUpdate: ", fancyMiloogysNftsUpdate);
             }
           } catch (e) {
             console.log(e);
@@ -77,31 +79,31 @@ function YourFancyLoogies({
           console.log(e);
         }
       }
-      setYourFancyLoogies(fancyLoogieUpdate.reverse());
-      setFancyLoogiesNfts(fancyLoogiesNftsUpdate);
-      setLoadingFancyLoogies(false);
+      setYourFancyMiloogys(fancyMiloogyUpdate.reverse());
+      setFancyMiloogysNfts(fancyMiloogysNftsUpdate);
+      setLoadingFancyMiloogys(false);
     };
     updateYourCollectibles();
-  }, [address, yourFancyLoogieBalance]);
+  }, [address, yourFancyMiloogyBalance]);
 
   return (
     <>
       <div style={{ maxWidth: 820, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
         <div style={{ fontSize: 16 }}>
           <p>
-            Select the <strong>FancyLoogie</strong> you want to wear with accesories.
+            Select the <strong>FancyMiloogy</strong> you want to wear with accesories.
           </p>
           <p>
-            Mint some <strong>accesories</strong> and then you can <strong>add</strong> them to your Loogie.
+            Mint some <strong>accesories</strong> and then you can <strong>add</strong> them to your Miloogys.
           </p>
         </div>
       </div>
 
-      <div className="your-fancy-loogies" style={{ width: 515, margin: "0 auto", paddingBottom: 256 }}>
+      <div className="your-fancy-miloogys" style={{ width: 515, margin: "0 auto", paddingBottom: 256 }}>
         <List
           bordered
-          loading={loadingFancyLoogies}
-          dataSource={yourFancyLoogies}
+          loading={loadingFancyMiloogys}
+          dataSource={yourFancyMiloogys}
           renderItem={item => {
             const id = item.id.toNumber();
 
@@ -111,11 +113,11 @@ function YourFancyLoogies({
                   title={
                     <div>
                       <span style={{ fontSize: 18, marginRight: 8 }}>{item.name}</span>
-                      {selectedFancyLoogie != id ? (
+                      {selectedFancyMiloogy != id ? (
                         <Button
                           className="action-inline-button"
                           onClick={() => {
-                            setSelectedFancyLoogie(id);
+                            setSelectedFancyMiloogy(id);
                             setSelectedNfts({});
                             history.push("/yourAccesories");
                           }}
@@ -133,7 +135,7 @@ function YourFancyLoogies({
                             <Button
                               className="fancy-loogie-action-button action-button"
                               onClick={() => {
-                                tx(writeContracts.FancyLoogie.downgradeLoogie(id), function (transaction) {
+                                tx(writeContracts.Miloogys.downgradeMiloogy(id), function (transaction) {
                                   setUpdateBalances(updateBalances + 1);
                                 });
                               }}
@@ -142,15 +144,15 @@ function YourFancyLoogies({
                             </Button>
                           </Menu.Item>
                           {nfts.map(function (nft) {
-                            return fancyLoogiesNfts &&
-                              fancyLoogiesNfts[id] &&
-                              fancyLoogiesNfts[id][readContracts[nft].address] > 0 && (
+                            return fancyMiloogysNfts &&
+                              fancyMiloogysNfts[id] &&
+                              fancyMiloogysNfts[id][readContracts[nft].address] > 0 && (
                                 <Menu.Item key={"remove-"+nft}>
                                   <Button
                                     className="fancy-loogie-action-button action-button"
                                     onClick={() => {
-                                      tx(writeContracts.FancyLoogie.removeNftFromLoogie(readContracts[nft].address, id), function (transaction) {
-                                        setFancyLoogiesNfts(prevState => ({
+                                      tx(writeContracts.Miloogys.removeNftFromMiloogy(readContracts[nft].address, id), function (transaction) {
+                                        setFancyMiloogysNfts(prevState => ({
                                           ...prevState,
                                           [id]: {
                                             ...prevState[id],
@@ -196,7 +198,7 @@ function YourFancyLoogies({
                     />
                     <Button
                       onClick={() => {
-                        tx(writeContracts.FancyLoogie.transferFrom(address, transferToAddresses[id], id), function (transaction) {
+                        tx(writeContracts.Miloogys.transferFrom(address, transferToAddresses[id], id), function (transaction) {
                           setUpdateBalances(updateBalances + 1);
                         });
                       }}
@@ -214,4 +216,4 @@ function YourFancyLoogies({
   );
 }
 
-export default YourFancyLoogies;
+export default YourFancyMiloogys;

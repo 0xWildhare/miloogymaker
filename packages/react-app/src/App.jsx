@@ -30,7 +30,7 @@ import externalContracts from "./contracts/external_contracts";
 // contracts
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
-import { YourLoogies, YourFancyLoogies, YourAccesories, FancyLoogiePreview, FancyLoogies } from "./views";
+import { YourMiloogys, YourFancyMiloogys, YourAccesories, FancyMiloogyPreview, FancyMiloogys } from "./views";
 import { useStaticJsonRPC } from "./hooks";
 const { TabPane } = Tabs;
 
@@ -267,12 +267,12 @@ function App(props) {
     ),
   };
 
-  const [fancyLoogieContracts, setFancyLoogieContracts] = useState([]);
-  const [fancyLoogiesNfts, setFancyLoogiesNfts] = useState();
-  const [selectedFancyLoogie, setSelectedFancyLoogie] = useState();
+  const [fancyMiloogyContracts, setFancyMiloogyContracts] = useState([]);
+  const [fancyMiloogysNfts, setFancyMiloogysNfts] = useState();
+  const [selectedFancyMiloogy, setSelectedFancyMiloogy] = useState();
   const [selectedNfts, setSelectedNfts] = useState({});
-  const [selectedFancyLoogiePreview, setSelectedFancyLoogiePreview] = useState({});
-  const [fancyLoogiePreviewActiveTab, setFancyLoogiePreviewActiveTab] = useState("preview-Bow");
+  const [selectedFancyMiloogyPreview, setSelectedFancyMiloogyPreview] = useState({});
+  const [fancyMiloogyPreviewActiveTab, setFancyMiloogyPreviewActiveTab] = useState("preview-Bow");
 
   const initCount = {
     Bow: 0,
@@ -284,16 +284,16 @@ function App(props) {
   const [yourNftsCount, setYourNftsCount] = useState(initCount);
 
   useEffect(() => {
-    const updateFancyLoogieContracts = async () => {
-      if (readContracts.FancyLoogie) {
-        if (DEBUG) console.log("Updating FancyLoogie contracts address...");
-        const fancyLoogieContractsAddress = await readContracts.FancyLoogie.getContractsAddress();
-        if (DEBUG) console.log("🤗 fancy loogie contracts:", fancyLoogieContractsAddress);
-        setFancyLoogieContracts(fancyLoogieContractsAddress);
+    const updateFancyMiloogyContracts = async () => {
+      if (readContracts.Miloogys) {
+        if (DEBUG) console.log("Updating FancyMiloogy contracts address...");
+        const fancyMiloogyContractsAddress = await readContracts.Miloogys.getContractsAddress();
+        if (DEBUG) console.log("🤗 fancy loogie contracts:", fancyMiloogyContractsAddress);
+        setFancyMiloogyContracts(fancyMiloogyContractsAddress);
       }
     };
-    updateFancyLoogieContracts();
-  }, [address, readContracts.FancyLoogie]);
+    updateFancyMiloogyContracts();
+  }, [address, readContracts.Miloogys]);
 
   return (
     <div className="App">
@@ -309,11 +309,11 @@ function App(props) {
         <Menu.Item key="/">
           <Link to="/">Home</Link>
         </Menu.Item>
-        <Menu.Item key="/yourLoogies">
-          <Link to="/yourLoogies">Your Optimistic Loogies</Link>
+        <Menu.Item key="/yourMiloogys">
+          <Link to="/yourMiloogys">Your miloogys</Link>
         </Menu.Item>
-        <Menu.Item key="/yourFancyLoogies">
-          <Link to="/yourFancyLoogies">Your Fancy Loogies</Link>
+        <Menu.Item key="/yourFancyMiloogys">
+          <Link to="/yourFancyMiloogys">Your Fancy Miloogys</Link>
         </Menu.Item>
         <Menu.Item key="/yourAccesories">
           <Link to="/yourAccesories">Your Accesories</Link>
@@ -325,15 +325,15 @@ function App(props) {
 
       <Switch>
         <Route exact path="/">
-          <FancyLoogies
+          <FancyMiloogys
             readContracts={readContracts}
             mainnetProvider={mainnetProvider}
             blockExplorer={blockExplorer}
             DEBUG={DEBUG}
           />
         </Route>
-        <Route exact path="/yourLoogies">
-          <YourLoogies
+        <Route exact path="/yourMiloogys">
+          <YourMiloogys
             DEBUG={DEBUG}
             readContracts={readContracts}
             writeContracts={writeContracts}
@@ -345,8 +345,8 @@ function App(props) {
             setUpdateBalances={setUpdateBalances}
           />
         </Route>
-        <Route exact path="/yourFancyLoogies">
-          <YourFancyLoogies
+        <Route exact path="/yourFancyMiloogys">
+          <YourFancyMiloogys
             DEBUG={DEBUG}
             readContracts={readContracts}
             writeContracts={writeContracts}
@@ -356,19 +356,19 @@ function App(props) {
             address={address}
             updateBalances={updateBalances}
             setUpdateBalances={setUpdateBalances}
-            fancyLoogieContracts={fancyLoogieContracts}
-            fancyLoogiesNfts={fancyLoogiesNfts}
-            setFancyLoogiesNfts={setFancyLoogiesNfts}
-            selectedFancyLoogie={selectedFancyLoogie}
-            setSelectedFancyLoogie={setSelectedFancyLoogie}
+            fancyMiloogyContracts={fancyMiloogyContracts}
+            fancyMiloogysNfts={fancyMiloogysNfts}
+            setFancyMiloogysNfts={setFancyMiloogysNfts}
+            selectedFancyMiloogy={selectedFancyMiloogy}
+            setSelectedFancyMiloogy={setSelectedFancyMiloogy}
             selectedNfts={selectedNfts}
-            setSelectedFancyLoogiePreview={setSelectedFancyLoogiePreview}
+            setSelectedFancyMiloogyPreview={setSelectedFancyMiloogyPreview}
             nfts={nfts}
             setSelectedNfts={setSelectedNfts}
           />
         </Route>
         <Route exact path="/yourAccesories">
-          <FancyLoogiePreview
+          <FancyMiloogyPreview
             DEBUG={DEBUG}
             readContracts={readContracts}
             writeContracts={writeContracts}
@@ -378,15 +378,15 @@ function App(props) {
             setUpdateBalances={setUpdateBalances}
             nfts={nfts}
             nftsSvg={nftsSvg}
-            fancyLoogiesNfts={fancyLoogiesNfts}
-            selectedFancyLoogie={selectedFancyLoogie}
-            selectedFancyLoogiePreview={selectedFancyLoogiePreview}
-            setSelectedFancyLoogiePreview={setSelectedFancyLoogiePreview}
+            fancyMiloogysNfts={fancyMiloogysNfts}
+            selectedFancyMiloogy={selectedFancyMiloogy}
+            selectedFancyMiloogyPreview={selectedFancyMiloogyPreview}
+            setSelectedFancyMiloogyPreview={setSelectedFancyMiloogyPreview}
             selectedNfts={selectedNfts}
             setSelectedNfts={setSelectedNfts}
-            setFancyLoogiesNfts={setFancyLoogiesNfts}
-            fancyLoogiePreviewActiveTab={fancyLoogiePreviewActiveTab}
-            setFancyLoogiePreviewActiveTab={setFancyLoogiePreviewActiveTab}
+            setFancyMiloogysNfts={setFancyMiloogysNfts}
+            fancyMiloogyPreviewActiveTab={fancyMiloogyPreviewActiveTab}
+            setFancyMiloogyPreviewActiveTab={setFancyMiloogyPreviewActiveTab}
           />
           <Tabs defaultActiveKey="/" tabPosition="left" id="tabs-accesories" tabBarExtraContent={
             <Alert
@@ -395,10 +395,10 @@ function App(props) {
                 <p>
                   If:
                   <ul>
-                    <li>You have a <strong>FancyLoogie selected to wear</strong> and</li>
+                    <li>You have a <strong>FancyMiloogy selected to wear</strong> and</li>
                     <li>The loogie <strong>doesn't have this kind of accesory</strong>,</li>
                   </ul>
-                  Then, you will be able to preview the accesory on your <strong>FancyLoogie</strong>.
+                  Then, you will be able to preview the accesory on your <strong>FancyMiloogy</strong>.
                 </p>
               }
               type="info"
@@ -430,11 +430,11 @@ function App(props) {
                     updateBalances={updateBalances}
                     setUpdateBalances={setUpdateBalances}
                     nft={nft}
-                    fancyLoogiesNfts={fancyLoogiesNfts}
-                    selectedFancyLoogie={selectedFancyLoogie}
+                    fancyMiloogysNfts={fancyMiloogysNfts}
+                    selectedFancyMiloogy={selectedFancyMiloogy}
                     selectedNfts={selectedNfts}
                     setSelectedNfts={setSelectedNfts}
-                    setFancyLoogiePreviewActiveTab={setFancyLoogiePreviewActiveTab}
+                    setFancyMiloogyPreviewActiveTab={setFancyMiloogyPreviewActiveTab}
                   />
                 </TabPane>
               );
@@ -466,10 +466,19 @@ function App(props) {
         </Route>
         <Route exact path="/debug">
           <div style={{ padding: 32 }}>
-            <Address value={readContracts && readContracts.FancyLoogie && readContracts.FancyLoogie.address} />
+            <Address value={readContracts && readContracts.Miloogys && readContracts.Miloogys.address} />
           </div>
           <Contract
-            name="FancyLoogie"
+            name="Miloogys"
+            price={price}
+            signer={userSigner}
+            provider={localProvider}
+            address={address}
+            blockExplorer={blockExplorer}
+            contractConfig={contractConfig}
+          />
+          <Contract
+            name="Eyelash"
             price={price}
             signer={userSigner}
             provider={localProvider}

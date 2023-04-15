@@ -29,7 +29,7 @@ contract Bow is ERC721Enumerable {
   mapping (uint256 => bytes3) public color;
   mapping (uint256 => bool) public crazy;
 
-  constructor() ERC721("Loogie Bow", "LOOGBOW") {
+  constructor() ERC721("Miloogy Bow", "LOOGBOW") {
     // RELEASE THE LOOGIE BOW!
   }
 
@@ -56,14 +56,14 @@ contract Bow is ERC721Enumerable {
 
   function tokenURI(uint256 id) public view override returns (string memory) {
       require(_exists(id), "not exist");
-      string memory name = string(abi.encodePacked('Loogie Bow #',id.toString()));
+      string memory name = string(abi.encodePacked('Miloogy Bow #',id.toString()));
       string memory crazyText = '';
       string memory crazyValue = 'false';
       if (crazy[id]) {
         crazyText = ' and it is crazy';
         crazyValue = 'true';
       }
-      string memory description = string(abi.encodePacked('This Loogie Bow is the color #',color[id].toColor(),crazyText,'!!!'));
+      string memory description = string(abi.encodePacked('This Miloogy Bow is the color #',color[id].toColor(),crazyText,'!!!'));
       string memory image = Base64.encode(bytes(generateSVGofTokenById(id)));
 
       return
@@ -77,7 +77,7 @@ contract Bow is ERC721Enumerable {
                               name,
                               '", "description":"',
                               description,
-                              '", "external_url":"https://www.fancyloogies.com/bow/',
+                              '", "external_url":"https://www.fancymiloogys.com/bow/',
                               id.toString(),
                               '", "attributes": [{"trait_type": "color", "value": "#',
                               color[id].toColor(),

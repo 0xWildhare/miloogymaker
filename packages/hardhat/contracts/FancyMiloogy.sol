@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import 'base64-sol/base64.sol';
 import './HexStrings.sol';
 
-abstract contract LoogiesContract {
+abstract contract MiloogysContract {
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(
         address from,
@@ -22,7 +22,7 @@ abstract contract NFTContract {
   function transferFrom(address from, address to, uint256 id) external virtual;
 }
 
-contract FancyLoogie is ERC721Enumerable, IERC721Receiver, Ownable {
+contract FancyMiloogy is ERC721Enumerable, IERC721Receiver, Ownable {
 
   using Strings for uint256;
   using Strings for uint8;
@@ -31,15 +31,15 @@ contract FancyLoogie is ERC721Enumerable, IERC721Receiver, Ownable {
 
   Counters.Counter private _tokenIds;
 
-  LoogiesContract loogies;
-  mapping(uint256 => uint256) loogieById;
+  MiloogysContract miloogys;
+  mapping(uint256 => uint256) miloogyById;
 
   NFTContract[] public nftContracts;
   mapping(address => bool) nftContractsAvailables;
   mapping(address => mapping(uint256 => uint256)) nftById;
 
-  constructor(address _loogies) ERC721("FancyLoogie", "FLOOG") {
-    loogies = LoogiesContract(_loogies);
+  constructor(address _miloogys) ERC721("FancyMiloogy", "FLOOG") {
+    miloogys = MiloogysContract(_miloogys);
   }
 
   function addNft(address nft) public onlyOwner {
@@ -59,23 +59,23 @@ contract FancyLoogie is ERC721Enumerable, IERC721Receiver, Ownable {
     return addresses;
   }
 
-  function mintItem(uint256 loogieId) public returns (uint256) {
+  function mintItem(uint256 miloogyId) public returns (uint256) {
       _tokenIds.increment();
 
       uint256 id = _tokenIds.current();
       _mint(msg.sender, id);
 
-      loogies.transferFrom(msg.sender, address(this), loogieId);
+      miloogys.transferFrom(msg.sender, address(this), miloogyId);
 
-      loogieById[id] = loogieId;
+      miloogyById[id] = miloogyId;
 
       return id;
   }
 
   function tokenURI(uint256 id) public view override returns (string memory) {
       require(_exists(id), "not exist");
-      string memory name = string(abi.encodePacked('FancyLoogie #',id.toString()));
-      string memory description = string(abi.encodePacked('FancyLoogie'));
+      string memory name = string(abi.encodePacked('FancyMiloogy #',id.toString()));
+      string memory description = string(abi.encodePacked('FancyMiloogy'));
       string memory image = Base64.encode(bytes(_generateSVGofTokenById(id)));
 
       return string(abi.encodePacked(
@@ -87,7 +87,7 @@ contract FancyLoogie is ERC721Enumerable, IERC721Receiver, Ownable {
                     name,
                     '", "description":"',
                     description,
-                    '", "external_url":"https://www.fancyloogies.com/fancyloogie/',
+                    '", "external_url":"https://www.fancymiloogys.com/fancymiloogy/',
                     id.toString(),
                     '", "owner":"',
                     (uint160(ownerOf(id))).toHexString(20),
@@ -116,7 +116,7 @@ contract FancyLoogie is ERC721Enumerable, IERC721Receiver, Ownable {
   function renderTokenById(uint256 id) public view returns (string memory) {
     string memory render;
 
-    render = string(abi.encodePacked(render, loogies.renderTokenById(loogieById[id])));
+    render = string(abi.encodePacked(render, miloogys.renderTokenById(miloogyById[id])));
 
     for (uint i=0; i<nftContracts.length; i++) {
       if (nftById[address(nftContracts[i])][id] > 0) {
@@ -139,62 +139,62 @@ contract FancyLoogie is ERC721Enumerable, IERC721Receiver, Ownable {
         return tempUint;
   }
 
-  function removeNftFromLoogie(address nft, uint256 id) external {
-    require(msg.sender == ownerOf(id), "only the owner can undress a loogie!!");
-    require(this.hasNft(nft, id), "the loogie is not wearing this NFT");
+  function removeNftFromMiloogy(address nft, uint256 id) external {
+    require(msg.sender == ownerOf(id), "only the owner can undress a miloogy!!");
+    require(this.hasNft(nft, id), "the miloogy is not wearing this NFT");
 
     NFTContract nftContract = NFTContract(nft);
-    _removeNftFromLoogie(nftContract, id);
+    _removeNftFromMiloogy(nftContract, id);
   }
 
-  function downgradeLoogie(uint256 id) external {
-    require(msg.sender == ownerOf(id), "only the owner can downgrade a loogie!!");
+  function downgradeMiloogy(uint256 id) external {
+    require(msg.sender == ownerOf(id), "only the owner can downgrade a miloogy!!");
 
-    // remove nft tokens from FancyLoogie
+    // remove nft tokens from FancyMiloogy
     for (uint i=0; i<nftContracts.length; i++) {
       if (nftById[address(nftContracts[i])][id] > 0) {
-        _removeNftFromLoogie(nftContracts[i], id);
+        _removeNftFromMiloogy(nftContracts[i], id);
       }
     }
 
-    // transfer loogie to owner
-    loogies.transferFrom(address(this), ownerOf(id), loogieById[id]);
-    loogieById[id] = 0;
+    // transfer miloogy to owner
+    miloogys.transferFrom(address(this), ownerOf(id), miloogyById[id]);
+    miloogyById[id] = 0;
 
-    // burn FancyLoogie
+    // burn FancyMiloogy
     _burn(id);
   }
 
-  function _removeNftFromLoogie(NFTContract nftContract, uint256 id) internal {
+  function _removeNftFromMiloogy(NFTContract nftContract, uint256 id) internal {
     nftContract.transferFrom(address(this), ownerOf(id), nftById[address(nftContract)][id]);
 
     nftById[address(nftContract)][id] = 0;
   }
 
   function hasNft(address nft, uint256 id) external view returns (bool) {
-    require(nftContractsAvailables[nft], "the loogies can't wear this NFT");
+    require(nftContractsAvailables[nft], "the miloogys can't wear this NFT");
 
     return (nftById[nft][id] != 0);
   }
 
   function nftId(address nft, uint256 id) external view returns (uint256) {
-    require(nftContractsAvailables[nft], "the loogies can't wear this NFT");
+    require(nftContractsAvailables[nft], "the miloogys can't wear this NFT");
 
     return nftById[nft][id];
   }
 
   // to receive ERC721 tokens
   function onERC721Received(
-      address operator,
+      address /*operator*/,
       address from,
       uint256 tokenId,
       bytes calldata fancyIdData) external override returns (bytes4) {
 
       uint256 fancyId = _toUint256(fancyIdData);
 
-      require(ownerOf(fancyId) == from, "you can only add stuff to a fancy loogie you own.");
-      require(nftContractsAvailables[msg.sender], "the loogies can't wear this NFT");
-      require(nftById[msg.sender][fancyId] == 0, "the loogie already has this NFT!");
+      require(ownerOf(fancyId) == from, "you can only add stuff to a fancy miloogy you own.");
+      require(nftContractsAvailables[msg.sender], "the miloogys can't wear this NFT");
+      require(nftById[msg.sender][fancyId] == 0, "the miloogy already has this NFT!");
 
       nftById[msg.sender][fancyId] = tokenId;
 

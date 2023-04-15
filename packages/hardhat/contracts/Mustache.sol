@@ -28,7 +28,7 @@ contract Mustache is ERC721Enumerable {
 
   mapping (uint256 => bytes3) public color;
 
-  constructor() ERC721("Loogie Mustaches", "LOOGMUS") {
+  constructor() ERC721("Miloogy Mustaches", "LOOGMUS") {
     // RELEASE THE LOOGIE MUSTACHES!
   }
 
@@ -54,8 +54,8 @@ contract Mustache is ERC721Enumerable {
 
   function tokenURI(uint256 id) public view override returns (string memory) {
       require(_exists(id), "not exist");
-      string memory name = string(abi.encodePacked('Loogie Mustache #',id.toString()));
-      string memory description = string(abi.encodePacked('This Loogie Mustache is the color #',color[id].toColor(),'!!!'));
+      string memory name = string(abi.encodePacked('Miloogy Mustache #',id.toString()));
+      string memory description = string(abi.encodePacked('This Miloogy Mustache is the color #',color[id].toColor(),'!!!'));
       string memory image = Base64.encode(bytes(generateSVGofTokenById(id)));
 
       return
@@ -69,7 +69,7 @@ contract Mustache is ERC721Enumerable {
                               name,
                               '", "description":"',
                               description,
-                              '", "external_url":"https://www.fancyloogies.com/mustache/',
+                              '", "external_url":"https://www.fancymiloogys.com/mustache/',
                               id.toString(),
                               '", "attributes": [{"trait_type": "color", "value": "#',
                               color[id].toColor(),
