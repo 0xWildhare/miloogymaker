@@ -1,88 +1,12 @@
-# 🏗 scaffold-eth - Fancy Loogie - Loogie Mashup SVG NFT
+# 🏗 scaffold-eth - miloogymaker - loogie meets milady SVG NFT
 
-![www fancyloogies com_fancy-loogie svg](https://user-images.githubusercontent.com/466652/148587212-d6b113b0-2ca1-448a-b6d4-2ecea0a99ad6.png)
+![www miloogymaker com_miloogy svg](https://pbs.twimg.com/profile_images/1647640728842149888/lwZordzp_400x400.jpg)
 
 > Demonstration showing how SVG NFTs can be composed on top of each other.
 
-https://www.fancyloogies.com/
-
-# 🏄‍♂️ Quick Start
-
-## Prerequisites
-
-This branch is an extension of [loogie-svg-nft](https://github.com/scaffold-eth/scaffold-eth/tree/loogies-svg-nft) branch (watch its [demo](https://www.youtube.com/watch?v=m0bwE5UelEo) to understand more about it), [optimistic-loogies](https://github.com/scaffold-eth/scaffold-eth/tree/optimistic-loogies-master) branch and [composable-svg-nft](https://github.com/scaffold-eth/scaffold-eth/tree/composable-svg-nft) branch.
-
-[Node](https://nodejs.org/en/download/) plus [Yarn](https://classic.yarnpkg.com/en/docs/install/) and [Git](https://git-scm.com/downloads)
-
-## Getting Started
-
-### Installation
-
-### Manual setup
-
-> clone/fork 🏗 scaffold-eth fancy-loogies branch:
-
-```
-git clone -b fancy-loogies https://github.com/scaffold-eth/scaffold-eth.git fancy-loogies
-```
-
-> install and start your 👷‍ Hardhat chain:
-
-```bash
-cd fancy-loogies
-yarn install
-yarn chain
-```
-
-> in a second terminal window, start your 📱 frontend:
-
-```bash
-cd fancy-loogies
-yarn start
-```
-
-> in a third terminal window, 🛰 deploy your contract:
-
-```bash
-cd fancy-loogies
-yarn deploy
-```
-
-🌍 You need an RPC key for production deployments/Apps, create an [Alchemy](https://www.alchemy.com/) account and replace the value of `ALCHEMY_KEY = xxx` in `packages/react-app/src/constants.js`
-
-🔏 Edit your smart contracts `packages/hardhat/contracts`.
-
-📝 Edit your frontend `App.jsx` in `packages/react-app/src`
-
-💼 Edit your deployment scripts in `packages/hardhat/deploy`
-
-📱 Open http://localhost:3000 to see the app
+https://www.miloogymaker.com/
 
 
-## Introduction
-
-This branch shows how to set up an SVG NFT contract so that other NFTs can use it in their SVG code. This leads to an easy composition of SVG NFTs.
-
-Take a look at `Loogies.sol` at `packages/hardhat/contracts`. It describes an SVG NFT that is defined by two parameters: `color` and `chubbiness` randomly generated at mint. It exposes a function:
-```
-function renderTokenById(uint256 id) public view returns (string memory)
-```
-
-It returns the relevant SVG that be embedded in other SVG code for rendering.
-
-Then, you can mint a FancyLoogie from a Loogie and then send another NFTs (Bow, Mustache, ContactLenses and Eyelashes for now) to that Loogie, to be rendered as one SVG.
-
-Take a look at `FancyLoogie.sol` at `packages/hardhat/contracts`:
-
-* The `mintItem` function receive the loogieId to upgrade, call a transfer from the Loogies contract transfering the Loogie to the FancyLoogie contract. Then the `onERC721Received` function get called when the Loogie is received (see `_safeTransfer` function at `ERC721.sol` from `OpenZeppelin`).
-* Its `renderTokenById` function calls the method `renderTokenById` from the other contracts  to include the SVG in its own SVG code.
-* The FancyLoogie contract is ready to add new NFTs contract addresses to be able to add new accessories to the Loogies. Take a look to `addNft` function.
-
-### Automated with Gitpod
-
-To deploy this project to Gitpod, click this button:
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/scaffold-eth/scaffold-eth/tree/fancy-loogies)
 
 # 📚 Documentation
 
