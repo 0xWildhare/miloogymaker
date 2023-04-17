@@ -13,7 +13,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     from: deployer,
     log: true,
   });
-
+/*
   const bow = await deploy("Bow", {
     from: deployer,
     log: true,
@@ -33,26 +33,27 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     from: deployer,
     log: true,
   });
-/*
+
   await deploy("FancyMiloogy", {
     from: deployer,
     args: [miloogys.address],
     log: true,
   });
 */
-  const Miloogys = await ethers.getContract("Miloogys", deployer);
-  await Miloogys.addNft(bow.address);
-  await Miloogys.addNft(mustache.address);
-  await Miloogys.addNft(contactLenses.address);
-  await Miloogys.addNft(eyelash.address);
+  Miloogys = await ethers.getContract("Miloogys", deployer);
+  //await Miloogys.addNft(bow.address);
+  //await Miloogys.addNft(mustache.address);
+  //await Miloogys.addNft(contactLenses.address);
+  //await Miloogys.addNft(eyelash.address);
 
   /*
     To take ownership of yourContract using the ownable library uncomment next line and add the 
     address you want to be the owner. 
-    // yourContract.transferOwnership(YOUR_ADDRESS_HERE);
+  */
+    Miloogys.transferOwnership(0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6);
 
     //const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
-  */
+  
 
   /*
   //If you want to send value to an address from the deployer
