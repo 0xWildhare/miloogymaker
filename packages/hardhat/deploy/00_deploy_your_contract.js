@@ -14,7 +14,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     log: true,
     args: [
       "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
-      "0xb03aa4fff1b621687d9e966e7b7333e5e7f3f6455e807d469e9772151fff688a"
+      "0xca0f3a95ddf0cbf1009f2529bdc35044e2cd2c129450306c2629a52da07b5361"
     ]
   });
 /*
