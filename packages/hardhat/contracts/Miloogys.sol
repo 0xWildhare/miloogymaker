@@ -60,19 +60,24 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
   Counters.Counter private _tokenIds;
 
   uint256 public constant limit = 1436; //i love you milady
-  uint256 public price = 0.001 ether;
-  
+  uint256 public price = 0.005 ether;
   NFTContract[] public nftContracts;
-
   mapping (uint256 => bytes3) public race;
   mapping (uint256 => bytes3) public eyeColor;
   mapping (uint256 => uint256) public bmi;
-  mapping (uint256 => uint256) public mouthLength;
-  mapping(address => bool) nftContractsAvailables;
-  mapping(address => mapping(uint256 => uint256)) nftById;
+  mapping (address => bool) nftContractsAvailables;
+  mapping (address => mapping(uint256 => uint256)) nftById;
+  mapping (address => bool) public freeMintUsed;
+  bool minting;
+  bytes32 merkleRoot;
 
-  constructor() ERC721("miloogymaker", "miloogy") {
-    _initializeOwner(msg.sender);
+  constructor(address owner_, bytes32 merkleRoot_) ERC721("miloogymaker", "miloogy") {
+    _initializeOwner(owner_);
+    merkleRoot = merkleRoot_;
+  }
+
+  function setMinting(bool toggleMint) public onlyOwner {
+    minting = toggleMint;
   }
 
   function mintItem()
@@ -82,35 +87,41 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
   {
       require(_tokenIds.current() < limit, "DONE MINTING");
       require(msg.value >= price, "NOT ENOUGH");
+      require(minting, "not minting");
       return(_mintMiloogy(msg.sender));
   }
 
   function _mintMiloogy(address sender) internal returns(uint){
-
-      _tokenIds.increment();
-
-      uint256 id = _tokenIds.current();
-      _mint(sender, id);
-
-      bytes32 predictableRandom = keccak256(abi.encodePacked( id, blockhash(block.number-1), sender, address(this) ));
-      race[id] = bytes2(predictableRandom[3]) | ( bytes2(predictableRandom[4]) >> 8 ) | ( bytes3(predictableRandom[5]) >> 16 );
-      eyeColor[id] = bytes2(predictableRandom[0]) | ( bytes2(predictableRandom[1]) >> 8 ) | ( bytes3(predictableRandom[2]) >> 16 );
-      bmi[id] = 1+((40*uint256(uint8(predictableRandom[6])))/255);
-      
-      (bool success, ) = owner().call{value: msg.value}("");
-      require(success, "could not send");
-
-      return id;
+    _tokenIds.increment();
+    uint256 id = _tokenIds.current();
+    _mint(sender, id);
+    bytes32 predictableRandom = keccak256(abi.encodePacked( id, blockhash(block.number-1), sender, address(this) ));
+    race[id] = bytes2(predictableRandom[3]) | ( bytes2(predictableRandom[4]) >> 8 ) | ( bytes3(predictableRandom[5]) >> 16 );
+    eyeColor[id] = bytes2(predictableRandom[0]) | ( bytes2(predictableRandom[1]) >> 8 ) | ( bytes3(predictableRandom[2]) >> 16 );
+    bmi[id] = 1+((40*uint256(uint8(predictableRandom[6])))/255);
+    return id;
   }
 
-  function mintMultiple(uint qty) public payable returns(uint[] memory){
+  function mintMultiple(uint qty) public payable { 
     require(msg.value >= price * qty, "NOT ENOUGH");
-    uint[] memory ids;
-
+    require(minting, "not minting");
     for(uint i = 0; i < qty; i++) {
-      ids[i] = _mintMiloogy(msg.sender);
+      _mintMiloogy(msg.sender);
     }
-    return ids;
+  }
+
+  function freeMint(bytes32[] calldata merkleProof) public returns(uint){
+    require(MerkleProofLib.verify(merkleProof, merkleRoot, keccak256(abi.encodePacked(msg.sender))), "invalid merkle proof");
+    require(_tokenIds.current() < limit, "DONE MINTING");
+    require(minting, "not minting");
+    require(!freeMintUsed[msg.sender]);
+    freeMintUsed[msg.sender] = true;
+    return(_mintMiloogy(msg.sender));
+  }
+
+  function withdraw() public onlyOwner {
+      (bool success, ) = owner().call{value: address(this).balance}("");
+      require(success, "could not send");
   }
 
   function tokenURI(uint256 id) public view override returns (string memory) {
@@ -120,37 +131,37 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
       string memory image = Base64.encode(bytes(generateSVGofTokenById(id)));
 
       return
-          string(
-              abi.encodePacked(
-                'data:application/json;base64,',
-                Base64.encode(
-                    bytes(
-                          abi.encodePacked(
-                              '{"name":"',
-                              name,
-                              '", "description":"',
-                              description,
-                              '", "external_url":"https://miloogymaker.com/token/',
-                              id.toString(),
-                              '", "attributes": [{"trait_type": "race", "value": "#',
-                              race[id].toRace(),
-                              '"},{"trait_type": "pigmnet", "value": ',
-                              race[id].toPigment().toString(),
-                              '},{"trait_type": "bmi", "value": ',
-                              uint2str(bmi[id]),
-                              '},{"trait_type": "eye color", "value": "#',
-                              eyeColor[id].toColor(),
-                              '"}], "owner":"',
-                              (uint160(ownerOf(id))).toHexString(20),
-                              '", "image": "',
-                              'data:image/svg+xml;base64,',
-                              image,
-                              '"}'
-                          )
-                        )
-                    )
+        string(
+          abi.encodePacked(
+            'data:application/json;base64,',
+            Base64.encode(
+              bytes(
+                abi.encodePacked(
+                  '{"name":"',
+                  name,
+                  '", "description":"',
+                  description,
+                  '", "external_url":"https://miloogymaker.com/token/',
+                  id.toString(),
+                  '", "attributes": [{"trait_type": "race", "value": "#',
+                  race[id].toRace(),
+                  '"},{"trait_type": "pigmnet", "value": ',
+                  race[id].toPigment().toString(),
+                  '},{"trait_type": "bmi", "value": ',
+                  uint2str(bmi[id]),
+                  '},{"trait_type": "eye color", "value": "#',
+                  eyeColor[id].toColor(),
+                  '"}], "owner":"',
+                  (uint160(ownerOf(id))).toHexString(20),
+                  '", "image": "',
+                  'data:image/svg+xml;base64,',
+                  image,
+                  '"}'
+                )
               )
-          );
+            )
+          )
+        );
   }
 
   function generateSVGofTokenById(uint256 id) internal view returns (string memory) {
@@ -174,7 +185,6 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
         render = string(abi.encodePacked(render, nftContracts[i].renderTokenByIdBack(nftById[address(nftContracts[i])][id])));
       }
     }
-    
 
     render = string(abi.encodePacked(render, string(abi.encodePacked(
       '<g id="headline" fill="#fff">',
