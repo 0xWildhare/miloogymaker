@@ -6,12 +6,12 @@ import React from "react";
 export default function Header() {
   return (
     <a href="/">
-      <div style={{ position: "absolute", left: -20, top: -30 }}>
-        <img src="fancy-loogie.svg" width="130" height="130" alt="FancyLoogie" />
+      <div style={{ position: "absolute", left: -20, top: -8 }}>
+        <img src="test-miloogy2.svg" width="130" height="130" alt="Miloogy" />
       </div>
       <PageHeader
-        title={<div style={{ marginLeft: 50 }}>FancyLoogies</div>}
-        subTitle="Loogies with accesories"
+        title={<div style={{ marginLeft: 80 }}>Miloogy Maker</div>}
+        subTitle="an unusual love story"
         style={{ cursor: "pointer" }}
       />
     </a>

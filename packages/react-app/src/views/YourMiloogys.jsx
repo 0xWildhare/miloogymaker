@@ -80,6 +80,13 @@ function YourMiloogys({
 
   return (
     <>
+      <div class="mascot">
+        <div class="logo" style={{margin: 1}}>
+          <a href="https://opensea.io/collection/miloogy">
+            <img src="banner.png" style={{ maxWidth: 600, padding: 10}} />
+          </a>
+        </div>
+      </div>
       <div style={{ maxWidth: 820, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
         <div style={{ fontSize: 16 }}>
           <p>
@@ -91,6 +98,13 @@ function YourMiloogys({
           </p>
         </div>
       </div>
+
+      <div style={{margin: "auto", padding: 24}}>
+      <audio controls autoplay loop>
+        <source src="Lovage_Book_of_the_Month_Album_Version_.ogg" type="audio/ogg" />
+        <source src="Lovage_Book_of_the_Month_Album_Version_.mp3" type="audio/mpeg" />
+      </audio>
+    </div>
 
       <div style={{ maxWidth: 515, margin: "0 auto", paddingBottom: 32 }}>
         <Button

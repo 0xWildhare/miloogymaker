@@ -690,7 +690,8 @@ body {
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-variant: tabular-nums;
   line-height: 1.5715;
-  background-color: #212121;
+  background-image: linear-gradient(#304d2c, #2d3c23, #24361e, #212121, #212121);
+  background-attachment: fixed;
   font-feature-settings: "tnum";
 }
 [tabindex="-1"]:focus {
@@ -14764,7 +14765,7 @@ tr.ant-table-expanded-row .ant-descriptions-view table {
   line-height: 0;
   text-align: left;
   list-style: none;
-  background: #212121;
+  background: transparent;
   outline: 0;
   box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.48), 0 6px 16px 0 rgba(0, 0, 0, 0.32), 0 9px 28px 8px rgba(0, 0, 0, 0.2);
   transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
@@ -15127,7 +15128,7 @@ table tr th.ant-table-selection-column .ant-radio-wrapper {
   line-height: 46px;
   white-space: nowrap;
   border: 0;
-  border-bottom: 1px solid #424242;
+  /*border-bottom: 1px solid #424242;*/
   box-shadow: none;
 }
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
