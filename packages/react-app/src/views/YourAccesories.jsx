@@ -30,10 +30,10 @@ function YourAccesories({
   const [loadingNfts, setLoadingNfts] = useState(true);
 
   const nftsText = {
-    Bow: '<p>Only <strong>1000 Bows</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each Bow has a <strong>random color</strong> and, if you are lucky, the bow will <strong>rotate</strong>!</p>',
-    Eyelash: '<p>Only <strong>1000 Eyelashes</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>The Eyelash has a <strong>random color</strong>, a <strong>random length</strong> and, if you are lucky, you can get <strong>another random color for the middle eyelashes</strong>!</p>',
-    Mustache: '<p>Only <strong>1000 Mustaches</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each Mustache has a <strong>random color</strong>.</p>',
-    ContactLenses: '<p>Only <strong>1000 Contact Lenses</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>The Contact Lenses have a <strong>random color</strong> and, if you are lucky, you can get a <strong>crazy one</strong>!</p>',
+    Hair: '<p>Only <strong>1000 Hairs</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each Hair has some <strong>random properties</strong></p>',
+    Eyebrows: '<p>Only <strong>1000 Eyebrows</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each set of Eyebrows has some <strong>random properties</strong></p>',
+    Background: '<p>Only <strong>1000 Backgrounds</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each Background has some <strong>random properties</strong> and, if you are lucky, you can get a <strong>crazy one</strong>!</p>',
+    Shirt: '<p>Only <strong>1000 Shirts</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>The Shirts have some <strong>random properties</strong> and include the body (neck and arms)</p>',
   };
 
   const priceToMint = useContractReader(readContracts, nft, "price");

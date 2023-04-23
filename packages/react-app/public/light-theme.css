@@ -598,6 +598,47 @@
     opacity: 0;
   }
 }
+
+.m_box {
+  border: 1px solid #2f4d0c;
+  margin: 1em;
+  background-color: white;
+}
+.m_box_bar {
+  background: #2f4d0c;
+  color: white;
+}
+h2.m_box {
+  background-color: #2f4d0c;
+}
+
+.box {
+  border: 1px solid #2f4d0c;
+  color: #2f4d0c;
+  margin: 1em;
+  background-color: white;
+}
+.box_bar {
+  background: #b9d9b7;
+  color: #2f4d0c;
+}
+
+
+#banner {
+  background-image: url("banner-light.png");
+  background-size: 600px;
+  font-size: 149px; /* img height */
+  height: 149px; /* img height */
+  width: 600px; /* img width */
+  }
+
+  .ant-list .ant-card {
+    background-image: url("bg-light.png");
+    background-size: 900px;
+  }
+
+
+
 .ant-image-preview,
 .ant-modal {
   pointer-events: none;
@@ -2343,7 +2384,7 @@ mark {
   font-size: 14px;
   border-radius: 4px;
   color: rgba(0, 0, 0, 0.85);
-  background: #fff;
+  background: 0 0;
   border-color: #d9d9d9;
 }
 .ant-btn > .anticon {
@@ -2488,6 +2529,23 @@ mark {
   color: #fff;
   background: #096dd9;
   border-color: #096dd9;
+}
+.ant-btn-secondary {
+  color: #212121;
+  background: #ffbe18;
+  border-color: #ffbe18;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+.ant-btn-secondary:hover {
+  color: #212121;
+  background: #fff018;
+  border-color: #fff018;
+}
+.ant-btn-secondary:active {
+  color: #212121;
+  background: #d9af09;
+  border-color: #d9af09;
 }
 .ant-btn-ghost > a:only-child,
 .ant-btn-primary:active > a:only-child {
@@ -4232,6 +4290,7 @@ a.ant-btn-sm {
 .ant-card-small > .ant-card-body {
   padding: 12px;
 }
+
 .ant-carousel {
   box-sizing: border-box;
   margin: 0;
@@ -13323,7 +13382,7 @@ tr.ant-table-expanded-row .ant-descriptions-view table {
 .ant-input-group-addon {
   position: relative;
   padding: 0 11px;
-  color: rgba(0, 0, 0, 0.85);
+  color: rgba(0, 0, 0, 0.4);
   font-weight: 400;
   font-size: 14px;
   text-align: center;

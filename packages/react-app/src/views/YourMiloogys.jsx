@@ -80,35 +80,8 @@ function YourMiloogys({
 
   return (
     <>
-      <div class="mascot">
-        <div class="logo" style={{margin: 1}}>
-          <a href="https://opensea.io/collection/miloogy">
-            <img src="banner.png" style={{ maxWidth: 600, padding: 10}} />
-          </a>
-        </div>
-      </div>
-      <div style={{ maxWidth: 820, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
-        <div style={{ fontSize: 16 }}>
-          <p>
-            Only <strong>3728 Optimistic Miloogys</strong> available (2X the supply of the <a href="https://miloogys.io" target="_blank">Original Ethereum Mainnet Miloogys</a>) on a price curve <strong>increasing 0.2%</strong> with each new mint.
-          </p>
-          <p>All Ether from sales goes to public goods!!</p>
-          <p>
-            You can upgrade your <strong>Optimistic Miloogy</strong>, mint some accesories and add the accesories to your <strong>FancyMiloogy</strong>.
-          </p>
-        </div>
-      </div>
-
-      <div style={{margin: "auto", padding: 24}}>
-      <audio controls autoplay loop>
-        <source src="Lovage_Book_of_the_Month_Album_Version_.ogg" type="audio/ogg" />
-        <source src="Lovage_Book_of_the_Month_Album_Version_.mp3" type="audio/mpeg" />
-      </audio>
-    </div>
-
       <div style={{ maxWidth: 515, margin: "0 auto", paddingBottom: 32 }}>
         <Button
-          type="primary"
           onClick={async () => {
             const priceRightNow = await readContracts.Miloogys.price();
             try {
@@ -120,10 +93,43 @@ function YourMiloogys({
             }
           }}
         >
-          MINT for Ξ{priceToMint && (+ethers.utils.formatEther(priceToMint)).toFixed(4)}
+          MINT 1 for Ξ{priceToMint && (+ethers.utils.formatEther(priceToMint)).toFixed(4)}
         </Button>
-        <p style={{ fontWeight: "bold" }}>
-          { miloogysLeft } left
+        &nbsp;&nbsp;
+        <Button
+          type="primary"
+          onClick={async () => {
+            const priceRightNow = await readContracts.Miloogys.price();
+            try {
+              tx(writeContracts.Miloogys.mintMultiple(5, { value: priceRightNow.mul(5)}), function (transaction) {
+                setUpdateBalances(updateBalances + 5);
+              });
+            } catch (e) {
+              console.log("mint failed", e);
+            }
+          }}
+        >
+          MINT 5 for Ξ{priceToMint && (+ethers.utils.formatEther(priceToMint)).toFixed(4) * 5}
+        </Button>
+        &nbsp;&nbsp;
+        <Button
+          type="secondary"
+          onClick={async () => {
+            const priceRightNow = await readContracts.Miloogys.price();
+            try {
+              tx(writeContracts.Miloogys.mintMultiple(10, { value: priceRightNow.mul(10)}), function (transaction) {
+                setUpdateBalances(updateBalances + 10);
+              });
+            } catch (e) {
+              console.log("mint failed", e);
+            }
+          }}
+        >
+          MINT 10 for Ξ{priceToMint && (+ethers.utils.formatEther(priceToMint)).toFixed(4) * 10}
+        </Button>
+        
+        <p style={{ fontWeight: "bold", padding:10}}>
+          { totalSupply && totalSupply.toNumber() } out of 1436 have been minted
         </p>
       </div>
       <div style={{ width: 515, margin: "0 auto", paddingBottom: 256 }}>
@@ -140,7 +146,7 @@ function YourMiloogys({
                   title={
                     <div>
                       <span style={{ fontSize: 18, marginRight: 8 }}>{item.name}</span>
-                      {yourMiloogysApproved[id] != readContracts.Miloogys.address ? (
+                      {/*yourMiloogysApproved[id] != readContracts.Miloogys.address ? (
                         <Button
                           onClick={async () => {
                             tx(writeContracts.Miloogys.approve(readContracts.Miloogys.address, id)).then(
@@ -166,7 +172,7 @@ function YourMiloogys({
                         >
                           Upgrade to FancyMiloogy
                         </Button>
-                      )}
+                        )*/}
                     </div>
                   }
                 >
@@ -190,7 +196,9 @@ function YourMiloogys({
                         setTransferToAddresses({ ...transferToAddresses, ...update });
                       }}
                     />
+                    
                     <Button
+                      style={{marginTop:10}}
                       onClick={() => {
                         tx(writeContracts.Miloogys.transferFrom(address, transferToAddresses[id], id), function (transaction) {
                           setUpdateBalances(updateBalances + 1);

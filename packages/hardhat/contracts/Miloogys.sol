@@ -86,7 +86,7 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
   Counters.Counter private _tokenIds;
 
   uint256 public constant limit = 1436; //i love you milady
-  uint256 public price = 0.005 ether;
+  uint256 public price = 0.008 ether;
   NFTContract[] public nftContracts;
   mapping (uint256 => bytes3) public race;
   mapping (uint256 => bytes3) public eyeColor;

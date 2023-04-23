@@ -9,15 +9,16 @@ export default function Footer({ mainnetProvider }) {
       <p>
         <span>🛠 Created by</span>
         <span class="address">
-          <Address value={"damianmarti.eth"} ensProvider={mainnetProvider} fontSize={18} />
+          <Address value={"0xWildhare.eth"} ensProvider={mainnetProvider} fontSize={18} />
         </span>
         <span>with</span>
         <a href="https://github.com/scaffold-eth/scaffold-eth" target="_blank" rel="noopener noreferrer">
           🏗 scaffold-eth
         </a>
-      </p>
-      <p>
-        🍴 <a href="https://github.com/scaffold-eth/scaffold-eth/tree/fancy-loogies" target="_blank">Fork this repo</a> and build a cool SVG NFT!
+        <span>and</span>
+        <a href="https://github.com/Vectorized/solady/" target="_blank" rel="noopener noreferrer">
+          solady
+        </a>
       </p>
     </div>
   );

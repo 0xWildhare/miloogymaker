@@ -598,6 +598,45 @@
     opacity: 0;
   }
 }
+
+.m_box {
+  border: 1px solid #2f4d0c;
+  margin: 1em;
+  background-color: #212121;
+}
+.m_box_bar {
+  background: #2f4d0c;
+  color: white;
+}
+h2.m_box {
+  background-color: #2f4d0c;
+}
+
+
+.box {
+  border: 1px solid #2f4d0c;
+  color: #f4ffee;
+  margin: 1em;
+  background-color: #212121;
+}
+.box_bar {
+  background: #b9d9b7;
+  color: #2f4d0c;
+}
+
+#banner {
+  background-image: url("banner-dark.png");
+  background-size: 600px;
+  font-size: 149px; /* img height */
+  height: 149px; /* img height */
+  width: 600px; /* img width */
+  }
+
+  .ant-list .ant-card {
+    background-image: url("bg-dark.png");
+    background-size: 900px;
+  }
+
 .ant-image-preview,
 .ant-modal {
   pointer-events: none;
@@ -690,7 +729,7 @@ body {
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-variant: tabular-nums;
   line-height: 1.5715;
-  background-image: linear-gradient(#304d2c, #2d3c23, #24361e, #212121, #212121);
+  background-image: linear-gradient(#304d2c, #2a4225, #24361e, #212121, #212121);
   background-attachment: fixed;
   font-feature-settings: "tnum";
 }
@@ -2488,6 +2527,23 @@ mark {
   color: #fff;
   background: #53c3e6;
   border-color: #53c3e6;
+}
+.ant-btn-secondary {
+  color: #212121;
+  background: #ffbe18;
+  border-color: #ffbe18;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+.ant-btn-secondary:hover {
+  color: #212121;
+  background: #fff018;
+  border-color: #fff018;
+}
+.ant-btn-secondary:active {
+  color: #212121;
+  background: #d9af09;
+  border-color: #d9af09;
 }
 .ant-btn-ghost > a:only-child,
 .ant-btn-primary:active > a:only-child {
@@ -13114,7 +13170,7 @@ tr.ant-table-expanded-row .ant-descriptions-view table {
   color: rgba(255, 255, 255, 0.85);
   font-size: 14px;
   line-height: 1.5715;
-  background-color: transparent;
+  background-color: #212121;
   background-image: none;
   border: 1px solid #6f6c6c;
   border-radius: 4px;
@@ -13410,11 +13466,11 @@ tr.ant-table-expanded-row .ant-descriptions-view table {
 .ant-input-group-addon {
   position: relative;
   padding: 0 11px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.4);
   font-weight: 400;
   font-size: 14px;
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: #212121;
   border: 1px solid #6f6c6c;
   border-radius: 4px;
   transition: all 0.3s;
@@ -14199,9 +14255,7 @@ tr.ant-table-expanded-row .ant-descriptions-view table {
 .ant-layout-rtl {
   direction: rtl;
 }
-.ant-list .ant-card {
-  background: 0 0;
-}
+
 .ant-list {
   box-sizing: border-box;
   margin: 0;
