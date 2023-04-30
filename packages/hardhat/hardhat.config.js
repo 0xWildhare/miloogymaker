@@ -26,7 +26,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 //
 // Select the network you want to deploy to here:
 //
-const defaultNetwork = "localhost";
+const defaultNetwork = "mainnet";
 
 const mainnetGwei = 21;
 
@@ -285,7 +285,7 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.16",
+        version: "0.8.17",
         settings: {
           optimizer: {
             enabled: true,
@@ -314,7 +314,11 @@ module.exports = {
     },
   },
   etherscan: {
-    apiKey: "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW",
+    apiKey: {
+      mainnet: "1369MW881SKMW5GM4JCFSM5623ZXA9ERUD",
+      goerli: "1369MW881SKMW5GM4JCFSM5623ZXA9ERUD"
+      // add other network's API key here
+    },
   },
 };
 

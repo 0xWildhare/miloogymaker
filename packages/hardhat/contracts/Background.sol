@@ -28,8 +28,8 @@ contract Background is ERC721Enumerable {
 
   mapping (uint256 => bytes3) public color;
 
-  constructor() ERC721("Miloogy Mustaches", "LOOGMUS") {
-    // RELEASE THE LOOGIE MUSTACHES!
+  constructor() ERC721("Miloogy Backgrounds", "MILBG") {
+    
   }
 
   function mintItem() public payable returns (uint256) {
@@ -54,8 +54,8 @@ contract Background is ERC721Enumerable {
 
   function tokenURI(uint256 id) public view override returns (string memory) {
       require(_exists(id), "not exist");
-      string memory name = string(abi.encodePacked('Miloogy Mustache #',id.toString()));
-      string memory description = string(abi.encodePacked('This Miloogy Mustache is the color #',color[id].toColor(),'!!!'));
+      string memory name = string(abi.encodePacked('Miloogy Background #',id.toString()));
+      string memory description = string(abi.encodePacked('This Miloogy Background is the color #',color[id].toColor(),'!!!'));
       string memory image = Base64.encode(bytes(generateSVGofTokenById(id)));
       string memory traits;
 
@@ -70,7 +70,7 @@ contract Background is ERC721Enumerable {
                               name,
                               '", "description":"',
                               description,
-                              '", "external_url":"https://www.fancymiloogys.com/mustache/',
+                              '", "external_url":"https://www.miloogymaker.net/background/',
                               id.toString(),
                               '", "attributes": [',
                               traits,
@@ -112,7 +112,7 @@ contract Background is ERC721Enumerable {
   }
   // Visibility is `public` to enable it being called by other contracts for composition.
   function renderTokenByIdBack(uint256 id) public pure returns (string memory) {
-    // mustache svg from https://www.svgrepo.com/svg/85048/mustache-shape with CCO Licence
+    
     string memory render = string(abi.encodePacked(
       '<g class="background" >',
           '<rect fill="#84D3DB" x="-1.2495" y="-2.99957" width="403.12397" height="292.49937" />',

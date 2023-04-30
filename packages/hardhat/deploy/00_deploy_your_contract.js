@@ -86,14 +86,17 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
 
   // Verify your contracts with Etherscan
   // You don't want to verify on localhost
-  /*
+  
   if (chainId !== localChainId) {
     await run("verify:verify", {
-      address: YourCollectible.address,
-      contract: "contracts/YourCollectible.sol:YourCollectible",
-      contractArguments: [],
+      address: miloogys.address,
+      contract: "contracts/Miloogys.sol:Miloogys",
+      constructorArguments: [
+        "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
+        "0xbd5f333c25ba5d6da3863c00ebb219a4f3420325449d1b17b29abff0954bfec6"
+      ],
     });
   }
-  */
+  
 };
-module.exports.tags = ["YourCollectible"];
+module.exports.tags = ["Miloogies"];

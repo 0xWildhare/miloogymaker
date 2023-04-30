@@ -140,7 +140,7 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
 
   function freeMint(bytes32[] calldata merkleProof) public returns(uint){
     require(MerkleProofLib.verify(merkleProof, merkleRoot, keccak256(abi.encodePacked(msg.sender))), "invalid merkle proof");
-    require(!freeMintUsed[msg.sender]);
+    require(!freeMintUsed[msg.sender], "freemint used");
     require(freeMints < freeLimit, "no more free mints");
     freeMints++;
     freeMintUsed[msg.sender] = true;
@@ -175,7 +175,7 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
                   name,
                   '", "description":"',
                   description,
-                  '", "external_url":"https://miloogymaker.com/token/',
+                  '", "external_url":"https://miloogymaker.net/token/',
                   id.toString(),
                   '", "attributes": [{"trait_type": "race", "value": "#',
                   race[id].toRace(),

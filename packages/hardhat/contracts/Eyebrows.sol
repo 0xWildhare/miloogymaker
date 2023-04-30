@@ -11,7 +11,7 @@ import './ToColor.sol';
 
 // GET LISTED ON OPENSEA: https://testnets.opensea.io/get-listed/step-two
 
-contract Eyebrow is ERC721Enumerable {
+contract Eyebrows is ERC721Enumerable {
 
   using Strings for uint256;
   using HexStrings for uint160;

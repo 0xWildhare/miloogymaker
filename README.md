@@ -4,7 +4,7 @@
 
 > Demonstration showing how SVG NFTs can be composed on top of each other.
 
-https://www.miloogymaker.com/
+https://www.miloogymaker.net/
 
 
 
