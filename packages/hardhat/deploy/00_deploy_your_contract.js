@@ -14,16 +14,17 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     log: true,
     args: [
       "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
-      "0xca0f3a95ddf0cbf1009f2529bdc35044e2cd2c129450306c2629a52da07b5361"
+      "0xbd5f333c25ba5d6da3863c00ebb219a4f3420325449d1b17b29abff0954bfec6"
     ]
   });
-/*
-  const bow = await deploy("Bow", {
+
+  /*
+  const background = await deploy("Background", {
     from: deployer,
     log: true,
   });
 
-  const eyelash = await deploy("Eyelash", {
+  const eyebrow = await deploy("Eyebrow", {
     from: deployer,
     log: true,
   });

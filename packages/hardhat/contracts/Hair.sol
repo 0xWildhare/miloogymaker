@@ -11,7 +11,7 @@ import './ToColor.sol';
 
 // GET LISTED ON OPENSEA: https://testnets.opensea.io/get-listed/step-two
 
-contract Bow is ERC721Enumerable {
+contract Hair is ERC721Enumerable {
 
   using Strings for uint256;
   using HexStrings for uint160;

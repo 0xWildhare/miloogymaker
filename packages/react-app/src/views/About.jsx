@@ -41,7 +41,7 @@ function FancyMiloogys({ }) {
         </div>
         <p style={{paddingLeft:10, paddingRight:10}}>
             This project uses Milady Maker branding, and is therefore copylefted under the
-            <a href="https://viralpubliclicense.org">Viral Public License</a>. You can fork
+             <a href="https://viralpubliclicense.org">Viral Public License</a>. You can fork
             the repo <a href="https://github.com/0xWildhare/miloogymaker">here</a>.
           </p>
       </div>

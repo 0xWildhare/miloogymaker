@@ -11,7 +11,7 @@ import './ToColor.sol';
 
 // GET LISTED ON OPENSEA: https://testnets.opensea.io/get-listed/step-two
 
-contract Eyelash is ERC721Enumerable {
+contract Eyebrow is ERC721Enumerable {
 
   using Strings for uint256;
   using HexStrings for uint160;
@@ -65,6 +65,7 @@ contract Eyelash is ERC721Enumerable {
 
   function tokenURI(uint256 id) public view override returns (string memory) {
       require(_exists(id), "not exist");
+      string memory traits = getTraits(id);
 
       return
           string(
@@ -79,13 +80,9 @@ contract Eyelash is ERC721Enumerable {
                               'This Miloogy Eyelash has length ',length[id].toString(),', color #',color[id].toColor(),' and middle eyelash color #',rareColor[id].toColor(),'!!!',
                               '", "external_url":"https://www.fancymiloogys.com/eyelash/',
                               id.toString(),
-                              '", "attributes": [{"trait_type": "length", "value": "',
-                              length[id].toString(),
-                              '"},{"trait_type": "color", "value": "#',
-                              color[id].toColor(),
-                              '"},{"trait_type": "middleRareColor", "value": "#',
-                              rareColor[id].toColor(),
-                              '"}], "owner":"',
+                              '", "attributes": [',
+                              traits,
+                              '], "owner":"',
                               (uint160(ownerOf(id))).toHexString(20),
                               '", "image": "',
                               'data:image/svg+xml;base64,',
@@ -110,34 +107,37 @@ contract Eyelash is ERC721Enumerable {
   function renderTokenByIdBack(uint256 id) public view returns (string memory) {
     uint256[4] memory lengths = [length[id], length[id]-3, length[id]-4, length[id]-3];
 
-    return string(abi.encodePacked(
-        '<path d="M 164 130 Q 154 125 169 ',lengths[0].toString(),'" stroke="#',color[id].toColor(),'" stroke-width="1" fill="transparent"/>',
-        '<path d="M 171 127 Q 161 122 176 ',lengths[1].toString(),'" stroke="#',color[id].toColor(),'" stroke-width="1" fill="transparent"/>',
-        '<path d="M 179 125 Q 169 120 184 ',(length[id]-5).toString(),'" stroke="#',rareColor[id].toColor(),'" stroke-width="1" fill="transparent"/>',
-        '<path d="M 186 126 Q 176 121 191 ',lengths[2].toString(),'" stroke="#',color[id].toColor(),'" stroke-width="1" fill="transparent"/>',
-        '<path d="M 194 127 Q 184 122 199 ',lengths[3].toString(),'" stroke="#',color[id].toColor(),'" stroke-width="1" fill="transparent"/>'
-    ));
+    return "";
   }
 
   function renderTokenByIdFront(uint256 id) public view returns (string memory) {
     uint256[4] memory lengths = [length[id]+12, length[id]+10, length[id]+11, length[id]+13];
 
     return string(abi.encodePacked(
-        '<path d="M 196 142 Q 186 137 201 ',lengths[0].toString(),'" stroke="#',color[id].toColor(),'" stroke-width="1" fill="transparent"/>',
-        '<path d="M 203 140 Q 193 135 208 ',lengths[1].toString(),'" stroke="#',color[id].toColor(),'" stroke-width="1" fill="transparent"/>',
-        '<path d="M 211 139 Q 201 134 216 ',(length[id]+9).toString(),'" stroke="#',rareColor[id].toColor(),'" stroke-width="1" fill="transparent"/>',
-        '<path d="M 218 141 Q 208 136 223 ',lengths[2].toString(),'" stroke="#',color[id].toColor(),'" stroke-width="1" fill="transparent"/>',
-        '<path d="M 226 143 Q 216 138 231 ',lengths[3].toString(),'" stroke="#',color[id].toColor(),'" stroke-width="1" fill="transparent"/>'
+        '<path d="m149.16432,208.99725l2.83467,-7.4986c3.38887,-3.77775 6.94439,-7.22217 10.83326,-9.33327l16.33322,-8.33328c3.55553,-1.49999 5.94441,-1.99998 10.6666,-2.49998l8.83327,0c2.88888,0.6111 5.11108,0.88888 7.16662,1.83332" stroke-width="5" stroke="#000" fill="none"/>',
+        '<path d="m254.49695,178.49745l4.83465,-4.49862c1.66666,-1.38888 3.33331,-2.11109 4.99997,-2.66664l10.6666,-1.16666c4.11108,0 8.22217,0.49999 12.33325,1.99998c1.44444,0.88889 3.38886,1.77777 3.8333,3.66665l2.33332,7.66661" stroke-width="5" stroke="#000" fill="none"/>'
     ));
+  }
+
+  function getTraits(uint id) public view returns(string memory) {
+    return string(abi.encodePacked(
+      '{"trait_type": "length", "value": "',
+      length[id].toString(),
+      '"},{"trait_type": "color", "value": "#',
+      color[id].toColor(),
+      '"},{"trait_type": "middleRareColor", "value": "#',
+      rareColor[id].toColor(),
+      '"}'
+      ));
   }
 
   // Visibility is `public` to enable it being called by other contracts for composition.
   function renderTokenById(uint256 id) public view returns (string memory) {
     return string(abi.encodePacked(
-      '<g class="eyelash">',
+      
         renderTokenByIdBack(id),
-        renderTokenByIdFront(id),
-      '</g>'
+        renderTokenByIdFront(id)
+      
       ));
   }
 }

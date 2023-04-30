@@ -79,6 +79,8 @@ function FancyMiloogyPreview({
                   >
                     { fancyMiloogysNfts &&
                       fancyMiloogysNfts[selectedFancyMiloogy] &&
+                      readContracts &&
+                      readContracts[nft] &&
                       fancyMiloogysNfts[selectedFancyMiloogy][readContracts[nft].address] > 0 ? (
                         <div>
                           Wearing {nft} #{fancyMiloogysNfts[selectedFancyMiloogy][readContracts[nft].address]}

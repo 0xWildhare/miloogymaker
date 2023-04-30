@@ -31,7 +31,7 @@ function YourAccesories({
 
   const nftsText = {
     Hair: '<p>Only <strong>1000 Hairs</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each Hair has some <strong>random properties</strong></p>',
-    Eyebrows: '<p>Only <strong>1000 Eyebrows</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each set of Eyebrows has some <strong>random properties</strong></p>',
+    Eyebrow: '<p>Only <strong>1000 Eyebrows</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each set of Eyebrows has some <strong>random properties</strong></p>',
     Background: '<p>Only <strong>1000 Backgrounds</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each Background has some <strong>random properties</strong> and, if you are lucky, you can get a <strong>crazy one</strong>!</p>',
     Shirt: '<p>Only <strong>1000 Shirts</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>The Shirts have some <strong>random properties</strong> and include the body (neck and arms)</p>',
   };

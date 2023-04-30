@@ -75,6 +75,7 @@ abstract contract NFTContract {
   function renderTokenByIdFront(uint256 id) external virtual view returns (string memory);
   function renderTokenById(uint256 id) external virtual view returns (string memory);
   function transferFrom(address from, address to, uint256 id) external virtual;
+  function getTraits(uint256 id) external virtual view returns(string memory);
 }
 
 contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
@@ -86,6 +87,8 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
   Counters.Counter private _tokenIds;
 
   uint256 public constant limit = 1436; //i love you milady
+  uint public constant freeLimit = 656; //loogie loves milady
+  uint public freeMints;
   uint256 public price = 0.008 ether;
   NFTContract[] public nftContracts;
   mapping (uint256 => bytes3) public race;
@@ -111,13 +114,13 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
       payable
       returns (uint256)
   {
-      require(_tokenIds.current() < limit, "DONE MINTING");
-      require(msg.value >= price, "NOT ENOUGH");
-      require(minting, "not minting");
-      return(_mintMiloogy(msg.sender));
+    require(msg.value >= price, "NOT ENOUGH");
+    return(_mintMiloogy(msg.sender));
   }
 
   function _mintMiloogy(address sender) internal returns(uint){
+    require(_tokenIds.current() < limit, "DONE MINTING");
+    require(minting, "not minting");
     _tokenIds.increment();
     uint256 id = _tokenIds.current();
     _mint(sender, id);
@@ -130,7 +133,6 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
 
   function mintMultiple(uint qty) public payable { 
     require(msg.value >= price * qty, "NOT ENOUGH");
-    require(minting, "not minting");
     for(uint i = 0; i < qty; i++) {
       _mintMiloogy(msg.sender);
     }
@@ -138,9 +140,9 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
 
   function freeMint(bytes32[] calldata merkleProof) public returns(uint){
     require(MerkleProofLib.verify(merkleProof, merkleRoot, keccak256(abi.encodePacked(msg.sender))), "invalid merkle proof");
-    require(_tokenIds.current() < limit, "DONE MINTING");
-    require(minting, "not minting");
     require(!freeMintUsed[msg.sender]);
+    require(freeMints < freeLimit, "no more free mints");
+    freeMints++;
     freeMintUsed[msg.sender] = true;
     return(_mintMiloogy(msg.sender));
   }
@@ -155,6 +157,12 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
       string memory name = string(abi.encodePacked('miloogy #',id.toString()));
       string memory description = string(abi.encodePacked('This miloogy is race #',race[id].toRace(), ' with pigment ', race[id].toPigment().toString(), ', a bmi of ',uint2str(bmi[id]), ', and an eye color of #', eyeColor[id].toColor()));
       string memory image = Base64.encode(bytes(generateSVGofTokenById(id)));
+      string memory traits;
+      for (uint i=0; i<nftContracts.length; i++) {
+      if (nftById[address(nftContracts[i])][id] > 0) {
+        traits = string(abi.encodePacked(traits, ',', nftContracts[i].getTraits(nftById[address(nftContracts[i])][id])));
+      }
+    }
 
       return
         string(
@@ -177,7 +185,9 @@ contract Miloogys is ERC721Enumerable, IERC721Receiver, Ownable {
                   uint2str(bmi[id]),
                   '},{"trait_type": "eye color", "value": "#',
                   eyeColor[id].toColor(),
-                  '"}], "owner":"',
+                  '"}',
+                  traits,
+                  '], "owner":"',
                   (uint160(ownerOf(id))).toHexString(20),
                   '", "image": "',
                   'data:image/svg+xml;base64,',
