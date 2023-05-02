@@ -15,7 +15,7 @@ function FancyMiloogys({ }) {
           <h2 style={{color:"#2f4d0c"}}>&nbsp;Mint</h2>
         </div>
         <p style={{paddingLeft:10, paddingRight:10}}>
-            Once the contract is live, Miloogys can be minted <a href="/Miloogy">here</a>.
+            Contract is live! Miloogys can be minted <a href="/Miloogy">here</a>. Traits include Race, Bmi, Eye Color, and Pigment, and are all pseudo-random at time of mint.
           </p>
       </div>
       <div style={{ maxWidth: 820, margin: "auto", paddingTop: 24, paddingBottom: 12}}>
