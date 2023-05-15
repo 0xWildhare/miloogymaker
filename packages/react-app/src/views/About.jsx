@@ -25,8 +25,8 @@ function FancyMiloogys({ }) {
           <ul>
             <li>Only <strong>1436 Miloogys</strong> available (ILY Milady / ILY Loogie)</li>
             <li><strong>656</strong> free mints for Milady, Loogie, Optimistic/Fancy Loogy holders (Loogie loves Milady / Milady love Loogie)</li>
-            <li>15% Ether from sales goes to <a href="https://twitter.com/buidlguidl" target="_blank">buidlguidl.eth</a> for making <a href="https://github.com/scaffold-eth/scaffold-eth" target="_blank">scaffold-eth</a></li>
-            <li>15% Ether from sales goes to <a href="https://twitter.com/optimizoor" target="_blank">vectorized.eth</a> for making <a href="https://github.com/Vectorized/solady/" target="_blank">solady</a></li>
+            <li>20% Ether from sales goes to <a href="https://twitter.com/buidlguidl" target="_blank">buidlguidl.eth</a> for making <a href="https://github.com/scaffold-eth/scaffold-eth" target="_blank">scaffold-eth</a></li>
+            <li>20% Ether from sales goes to <a href="https://twitter.com/optimizoor" target="_blank">vectorized.eth</a> for making <a href="https://github.com/Vectorized/solady/" target="_blank">solady</a></li>
             <li>
               After all the <strong>Miloogys</strong> sell, holders will be able to upgrade by minting hair, eyebrows, backgrounds and more.
             </li>

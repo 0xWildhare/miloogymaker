@@ -32,13 +32,15 @@ function FancyMiloogyPreview({
       if (selectedFancyMiloogy) {
         let nftUpdate = {};
         const loogieSvg = await readContracts.Miloogys.renderTokenById(selectedFancyMiloogy);
-        let nftsSvg = "";
+        let nftsSvgBack = "";
+        let nftsSvgFront = "";
         for (const nft of nfts) {
           if (selectedNfts[nft]) {
-            nftsSvg += await readContracts[nft].renderTokenById(selectedNfts[nft]);
+            nftsSvgBack += await readContracts[nft].renderTokenByIdBack(selectedNfts[nft]);
+            nftsSvgFront += await readContracts[nft].renderTokenByIdFront(selectedNfts[nft]);
           }
           const svg =
-            '<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">' + loogieSvg + nftsSvg + "</svg>";
+            '<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">' + nftsSvgBack + loogieSvg + nftsSvgFront + "</svg>";
           setSelectedFancyMiloogyPreview(svg);
         }
       } else {

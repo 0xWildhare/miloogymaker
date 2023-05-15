@@ -112,6 +112,21 @@ function YourAccesories({
           }}
         >
           MINT for Ξ{priceToMint && (+ethers.utils.formatEther(priceToMint)).toFixed(4)}
+        </Button> 
+        <Button
+          type="primary"
+          onClick={async () => {
+            
+            try {
+              tx(writeContracts[nft].mintBasicBg(), function (transaction) {
+                setUpdateNftBalance(updateNftBalance + 1);
+              });
+            } catch (e) {
+              console.log("mint failed", e);
+            }
+          }}
+        >
+          MINT OG BG for FREE
         </Button>
         <p style={{ fontWeight: "bold" }}>
           { nftLeft } left
