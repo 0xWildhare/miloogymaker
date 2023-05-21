@@ -32,11 +32,24 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     log: true
   });
 
-    /*
-  const eyebrow = await deploy("Eyebrow", {
+  const eyebrows = await deploy("Eyebrows", {
     from: deployer,
     log: true,
+    args: [
+      "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
+      miloogys.address
+    ]
   });
+
+  const eb = await deploy("Eb", {
+    from: deployer,
+    log: true,
+    args: [
+      eyebrows.address
+    ]
+  });
+
+    /*
 
   const mustache = await deploy("Mustache", {
     from: deployer,

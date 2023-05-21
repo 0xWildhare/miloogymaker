@@ -8,22 +8,12 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./auth/Ownable.sol";
 import './utils/Base64.sol';
 import './utils/HexStrings.sol';
-import './ToColor.sol';
-
-abstract contract NFTContract {
-  function renderTokenByIdBack(uint256 id) external virtual view returns (string memory);
-  function renderTokenByIdFront(uint256 id) external virtual view returns (string memory);
-  function renderTokenById(uint256 id) external virtual view returns (string memory);
-  //function transferFrom(address from, address to, uint256 id) external virtual;
-  function getTraits(uint256 id) external virtual view returns(string memory);
-  function tokenURI(uint256 id) external virtual view returns (string memory); 
-}
+import './interfaces/Inft.sol';
 
 contract Background is ERC721Enumerable, Ownable {
 
   using Strings for uint256;
   using HexStrings for uint160;
-  using ToColor for bytes3;
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
@@ -31,7 +21,7 @@ contract Background is ERC721Enumerable, Ownable {
   uint256 public constant curve = 1005; // price increase 0,5% with each purchase
   uint256 public price = 0.002 ether;
   uint public basicBgAmount;
-  NFTContract public bgContract;
+  Inft public bgContract;
   ERC721Enumerable public miloogy;
 
   mapping (uint256 => bytes32) public genes;
@@ -64,7 +54,7 @@ contract Background is ERC721Enumerable, Ownable {
     return(id);
   }
 
-  function setBg(NFTContract newBg) public onlyOwner {
+  function setBg(Inft newBg) public onlyOwner {
     require(address(bgContract) == address(0), "can only set once");
     bgContract = newBg;
   }
@@ -178,7 +168,7 @@ contract Background is ERC721Enumerable, Ownable {
   function getTraits(uint id) public view returns(string memory) {
     if(id > basicBgAmount){
       assert(address(bgContract) != address(0));
-      return(bgContract.renderTokenById(id));
+      return(bgContract.getTraits(id));
     } else {
       return string(abi.encodePacked(
       '{"trait_type": "background", "value": "OG"}'

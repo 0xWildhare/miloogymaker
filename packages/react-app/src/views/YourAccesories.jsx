@@ -30,10 +30,10 @@ function YourAccesories({
   const [loadingNfts, setLoadingNfts] = useState(true);
 
   const nftsText = {
-    Hair: '<p>Only <strong>1000 Hairs</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each Hair has some <strong>random properties</strong></p>',
-    Eyebrows: '<p>Only <strong>1000 Eyebrows</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each set of Eyebrows has some <strong>random properties</strong></p>',
-    Background: '<p>Only <strong>1000 Backgrounds</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>Each Background has some <strong>random properties</strong> and, if you are lucky, you can get a <strong>crazy one</strong>!</p>',
-    Shirt: '<p>Only <strong>1000 Shirts</strong> available on a price curve <strong>increasing 0.2%</strong> with each new mint.</p><p>The Shirts have some <strong>random properties</strong> and include the body (neck and arms)</p>',
+    Hair: '<p>Only <strong>1000 Hairs</strong> available on a price curve <strong>increasing 0.5%</strong> with each new mint.</p><p>Each Hair has some <strong>random properties</strong></p>',
+    Eyebrows: '<p>Only <strong>1000 Eyebrows</strong> available on a price curve <strong>increasing 0.5%</strong> with each new mint.</p><p>Each set of Eyebrows has some <strong>random properties</strong></p>',
+    Background: '<p>Only <strong>1000 Backgrounds</strong> available on a price curve <strong>increasing 0.5%</strong> with each new mint.</p><p>Each Background has some <strong>random properties</strong> and, if you are lucky, you can get a <strong>crazy one</strong>!</p>',
+    Shirt: '<p>Only <strong>1000 Shirts</strong> available on a price curve <strong>increasing 0.5%</strong> with each new mint.</p><p>The Shirts have some <strong>random properties</strong> and include the body (neck and arms)</p>',
   };
 
   const priceToMint = useContractReader(readContracts, nft, "price");
@@ -41,7 +41,7 @@ function YourAccesories({
 
   const totalSupply = useContractReader(readContracts, nft, "totalSupply");
   if (DEBUG) console.log("🤗 totalSupply:", totalSupply);
-  const nftLeft = 1000 - totalSupply;
+  const nftLeft = 1000;// - totalSupply;
 
   useEffect(() => {
     const updateBalances = async () => {
@@ -98,7 +98,25 @@ function YourAccesories({
     <>
       <div style={{ width: 515, marginTop: 32, paddingBottom: 32 }}>
         <div dangerouslySetInnerHTML={{ __html: nftsText[nft] }}></div>
-        <Button
+        
+        {nft == "Background" ?
+          <Button
+            type="primary"
+            onClick={async () => {
+              
+              try {
+                tx(writeContracts[nft].mintBasicBg(), function (transaction) {
+                  setUpdateNftBalance(updateNftBalance + 1);
+                });
+              } catch (e) {
+                console.log("mint failed", e);
+              }
+            }}
+          >
+            MINT OG BG for FREE
+          </Button>
+          : 
+          <Button
           type="primary"
           onClick={async () => {
             const priceRightNow = await readContracts[nft].price();
@@ -112,22 +130,8 @@ function YourAccesories({
           }}
         >
           MINT for Ξ{priceToMint && (+ethers.utils.formatEther(priceToMint)).toFixed(4)}
-        </Button> 
-        <Button
-          type="primary"
-          onClick={async () => {
-            
-            try {
-              tx(writeContracts[nft].mintBasicBg(), function (transaction) {
-                setUpdateNftBalance(updateNftBalance + 1);
-              });
-            } catch (e) {
-              console.log("mint failed", e);
-            }
-          }}
-        >
-          MINT OG BG for FREE
         </Button>
+        }
         <p style={{ fontWeight: "bold" }}>
           { nftLeft } left
         </p>
