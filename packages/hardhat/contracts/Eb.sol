@@ -3,35 +3,42 @@ pragma solidity >=0.8.0 <0.9.0;
 
 //import "hardhat/console.sol";
 //import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/interfaces/IERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import './utils/Base64.sol';
 import './utils/HexStrings.sol';
 import './ToColor.sol';
-import './interfaces/Inft.sol';
+import './interfaces/INftMetadata.sol';
+import './interfaces/IMiloogys.sol';
+import './interfaces/IAccessory.sol';
 
 
-
-contract Eb is Inft {
+contract Eb is INftMetadata {
 
     using Strings for uint256;
     using HexStrings for uint160;
+    using ToColor for bytes3;
+    
+    IMiloogys miloogys;
+    IAccessory eyebrows;
 
-    IERC721Enumerable eyebrows;
-
-    constructor(IERC721Enumerable eyebrows_){
+    constructor(IMiloogys miloogys_, IAccessory eyebrows_) {
+        miloogys = miloogys_;
         eyebrows = eyebrows_;
     }
 
-    function renderTokenByIdBack(uint id) public view override returns(string memory) {
+    function renderTokenByIdBack(uint) public pure override returns(string memory) {
         return "";
     }
 
     function renderTokenByIdFront(uint id) public view override returns(string memory) {
-        return string(abi.encodePacked('<g class="eyebrows" transform="translate(100,42) scale(6 6)">',
-            '<path d="m8.25,17.3125l0.4375,-1.25l3.5625,-2.5625l1.8125,-0.5625l1.3125,-0.25l2.125,0.1875" stroke="#000000" fill="none"/>',
-            '<path d="m26.4375,12l1.125,-0.75l2.375,-0.375l2.375,0.4375l0.875,1.8125" opacity="NaN" stroke="#000000" fill="none"/>',
+        //if you are reading this I promise this won't be what it actually looks like in production, I am just testing!
+        string memory color = getColor(id); 
+        return string(abi.encodePacked('<g class="eyebrows" transform="translate(100,42) scale(6 6)" stroke="#',
+        color,
+        '" fill="none">',
+            '<path d="m8.25,17.3125l0.4375,-1.25l3.5625,-2.5625l1.8125,-0.5625l1.3125,-0.25l2.125,0.1875" />',
+            '<path d="m26.4375,12l1.125,-0.75l2.375,-0.375l2.375,0.4375l0.875,1.8125" />',
             '</g>'
         ));
     }
@@ -44,9 +51,19 @@ contract Eb is Inft {
     }
 
     function getTraits(uint id) public view override returns(string memory) {
+        string memory color = getColor(id);
         return string(abi.encodePacked(
-      '{"trait_type": "eyebrows", "value": "OG"}'
+        '{"trait_type": "eyebrows", "value": "OG"},',
+        '{"trait_type": "eyebrow color", "value": "#',
+        color,
+        '"}'
       ));
+    }
+
+    function getColor(uint id) public view returns(string memory) {
+        bytes32 predictableRandom = eyebrows.genes(id);
+        bytes3 rawColor =  bytes2(predictableRandom[3]) | ( bytes2(predictableRandom[4]) >> 8 ) | ( bytes3(predictableRandom[5]) >> 16 );
+        return rawColor.toColor();
     }
 
     function tokenURI(uint id) public view override returns(string memory) {

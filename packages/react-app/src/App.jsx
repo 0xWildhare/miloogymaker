@@ -234,7 +234,7 @@ function App(props) {
       <g class="eyebrows" transform="translate(-12,-8) scale(1.5 1.5)">
       
       <path d="m8.25,17.3125l0.4375,-1.25l3.5625,-2.5625l1.8125,-0.5625l1.3125,-0.25l2.125,0.1875" stroke="#000000" fill="none"/>
-      <path d="m26.4375,12l1.125,-0.75l2.375,-0.375l2.375,0.4375l0.875,1.8125" opacity="NaN" stroke="#000000" fill="none"/>
+      <path d="m26.4375,12l1.125,-0.75l2.375,-0.375l2.375,0.4375l0.875,1.8125" stroke="#000000" fill="none"/>
     </g>
     ),
     Background: (

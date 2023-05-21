@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./auth/Ownable.sol";
 import './utils/Base64.sol';
 import './utils/HexStrings.sol';
-import './interfaces/Inft.sol';
+import './interfaces/INftMetadata.sol';
 
 contract Background is ERC721Enumerable, Ownable {
 
@@ -21,7 +21,7 @@ contract Background is ERC721Enumerable, Ownable {
   uint256 public constant curve = 1005; // price increase 0,5% with each purchase
   uint256 public price = 0.002 ether;
   uint public basicBgAmount;
-  Inft public bgContract;
+  INftMetadata public bgContract;
   ERC721Enumerable public miloogy;
 
   mapping (uint256 => bytes32) public genes;
@@ -34,7 +34,7 @@ contract Background is ERC721Enumerable, Ownable {
   function mintItem() public payable returns (uint256) {
       require(_tokenIds.current() < limit + basicBgAmount, "DONE MINTING");
       require(msg.value >= price, "NOT ENOUGH");
-
+      require(address(bgContract) != address(0), "NOT MINTING YET");
       price = (price * curve) / 1000;
       uint id = _mintBg(msg.sender);
       genes[id] = keccak256(abi.encodePacked( id, blockhash(block.number-1), msg.sender, address(this) ));
@@ -54,7 +54,7 @@ contract Background is ERC721Enumerable, Ownable {
     return(id);
   }
 
-  function setBg(Inft newBg) public onlyOwner {
+  function setBg(INftMetadata newBg) public onlyOwner {
     require(address(bgContract) == address(0), "can only set once");
     bgContract = newBg;
   }
@@ -65,11 +65,11 @@ contract Background is ERC721Enumerable, Ownable {
   }
 
   function tokenURI(uint256 id) public view override returns (string memory) {
+    require(_exists(id), "not exist");
     if(id > basicBgAmount){
       assert(address(bgContract) != address(0));
       return(bgContract.tokenURI(id));
     } else {
-      require(_exists(id), "not exist");
       string memory name = string(abi.encodePacked('Miloogy Background #',id.toString()));
       string memory description = "basic miloogy background for OGs only";
       string memory image = Base64.encode(bytes(generateSVGofTokenById(id)));
@@ -146,7 +146,6 @@ contract Background is ERC721Enumerable, Ownable {
       string memory render = string(abi.encodePacked(
         '<g class="background" >',
             '<rect fill="#84D3DB" x="-1.2495" y="-2.99957" width="403.12397" height="292.49937" />',
-            '<path fill="#84D3DB" d="m-0.37417,21.12495"/>',
             '<path fill="#CBFFFF" d="m80.70573,53.96501l-28.7063,13.49248c0.00672,0.00738 2.0567,18.00711 2.04998,17.99982c0.00672,0.00738 16.40645,1.13232 16.39981,1.12494c0.00672,0.00738 13.33153,0.00738 13.3248,0c0.00672,0.00738 16.40645,7.88225 16.39981,7.87487c0.00672,0.00738 25.63138,-8.99253 25.62466,-8.99991c0.00672,0.00738 25.63138,-1.11765 25.62466,-1.12494c0.00672,0.00738 13.33153,-21.36745 13.3248,-21.37474c0.00672,0.00738 -14.34311,-12.36754 -14.34983,-12.37483c0.00672,0.00738 -42.01774,-2.2426 -42.02446,-2.24998"/>',
             '<path fill="#CBFFFF" d="m221.78798,120.44581l41.13254,-19.15541l40.13577,0l35.11876,10.44533l22.07467,2.6113l11.0373,23.50196l-28.09504,8.70444l-66.22393,2.6113l-23.07803,-10.44533l-42.14255,-2.6113" />',
             '<path fill="#ffffff" d="m99.72496,53.08348l-37.89233,14.23899c0.00731,0.01169 3.35007,10.69969 3.34276,10.68801c0.00731,0.01169 26.74965,5.35562 26.74243,5.34393c0.00731,0.01169 14.49275,-7.11365 14.48544,-7.12534c0.00731,0.01169 1.12153,17.82503 17.83551,7.13702c16.71398,-10.68801 40.11365,-14.25068 26.74243,-26.71995l-25.63543,-1.79295" />',

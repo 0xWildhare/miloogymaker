@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./auth/Ownable.sol";
 import './utils/Base64.sol';
 import './utils/HexStrings.sol';
-import './interfaces/Inft.sol';
+import './interfaces/INftMetadata.sol';
 
 contract Eyebrows is ERC721Enumerable, Ownable {
 
@@ -20,7 +20,7 @@ contract Eyebrows is ERC721Enumerable, Ownable {
   uint256 public constant limit = 1000;
   uint256 public constant curve = 1005; // price increase 0,5% with each purchase
   uint256 public price = 0.002 ether;
-  Inft public ebContract;
+  INftMetadata public ebContract;
   ERC721Enumerable public miloogy;
 
   mapping (uint256 => bytes32) public genes;
@@ -33,7 +33,7 @@ contract Eyebrows is ERC721Enumerable, Ownable {
   function mintItem() public payable returns (uint256) {
       require(_tokenIds.current() < limit, "DONE MINTING");
       require(msg.value >= price, "NOT ENOUGH");
-
+      require(address(ebContract) != address(0), "NOT MINTING YET");
       price = (price * curve) / 1000;
       _tokenIds.increment();
       uint256 id = _tokenIds.current();
@@ -43,7 +43,7 @@ contract Eyebrows is ERC721Enumerable, Ownable {
   }
 
 
-  function setEb(Inft newEb) public onlyOwner {
+  function setEb(INftMetadata newEb) public onlyOwner {
     require(address(ebContract) == address(0), "can only set once");
     ebContract = newEb;
   }

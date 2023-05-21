@@ -29,7 +29,11 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
 
   const bg = await deploy("Bg", {
     from: deployer,
-    log: true
+    log: true,
+    args: [
+      miloogys.address,
+      background.address
+    ]
   });
 
   const eyebrows = await deploy("Eyebrows", {
@@ -45,6 +49,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     from: deployer,
     log: true,
     args: [
+      miloogys.address,
       eyebrows.address
     ]
   });
