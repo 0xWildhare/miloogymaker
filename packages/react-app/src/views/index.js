@@ -4,3 +4,4 @@ export { default as FancyMiloogyPreview } from "./FancyMiloogyPreview";
 export { default as YourAccesories } from "./YourAccesories";
 export { default as About } from "./About";
 export { default as ViewMiloogy } from "./ViewMiloogy";
+export { default as ViewBackground } from "./ViewBackground";

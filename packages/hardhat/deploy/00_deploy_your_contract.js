@@ -9,18 +9,18 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  const miloogys = await ethers.getContract("Miloogys", deployer);
+  //const miloogys = await ethers.getContract("Miloogys", deployer);
   // const eyebrows = await ethers.getContract("Eyebrows", deployer);
   // const eb = await ethers.getContract("Eb", deployer);
 
-  // const miloogys = await deploy("Miloogys", {
-  //   from: deployer,
-  //   log: true,
-  //   args: [
-  //     "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
-  //     "0xbd5f333c25ba5d6da3863c00ebb219a4f3420325449d1b17b29abff0954bfec6"
-  //   ]
-  // });
+  const miloogys = await deploy("Miloogys", {
+    from: deployer,
+    log: true,
+    args: [
+      "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
+      "0xbd5f333c25ba5d6da3863c00ebb219a4f3420325449d1b17b29abff0954bfec6"
+    ]
+  });
 
   const background = await deploy("Background", {
     from: deployer,

@@ -30,7 +30,7 @@ import externalContracts from "./contracts/external_contracts";
 // contracts
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
-import { YourMiloogys, YourFancyMiloogys, YourAccesories, FancyMiloogyPreview, About, ViewMiloogy } from "./views";
+import { YourMiloogys, YourFancyMiloogys, YourAccesories, FancyMiloogyPreview, About, ViewMiloogy, ViewBackground } from "./views";
 import { useStaticJsonRPC } from "./hooks";
 const { TabPane } = Tabs;
 
@@ -505,7 +505,16 @@ function App(props) {
           />
         </Route>
         <Route path="/token/:id">
-        <ViewMiloogy
+          <ViewMiloogy
+              readContracts={readContracts}
+              blockExplorer={blockExplorer}
+              mainnetProvider={mainnetProvider}
+              targetNetwork={targetNetwork}
+              totalSupply={totalSupply}
+            />
+        </Route>
+        <Route path="/background/:id">
+          <ViewBackground
               readContracts={readContracts}
               blockExplorer={blockExplorer}
               mainnetProvider={mainnetProvider}
