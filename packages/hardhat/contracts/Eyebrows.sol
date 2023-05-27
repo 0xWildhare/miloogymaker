@@ -49,8 +49,14 @@ contract Eyebrows is ERC721Enumerable, Ownable {
   }
 
   function withdraw() public onlyOwner {
-      (bool success, ) = owner().call{value: address(this).balance}("");
-      require(success, "could not send");
+      bool success;
+      uint donation = address(this).balance/5;
+      (success, ) = 0x1F5D295778796a8b9f29600A585Ab73D452AcB1c.call{value: donation}(""); //vectorized.eth
+      assert(success);
+      (success, ) = 0x97843608a00e2bbc75ab0C1911387E002565DEDE.call{value: donation}(""); //buidlguidl.eth
+      assert(success);
+      (success, ) = owner().call{value: address(this).balance}("");
+      assert(success);
   }
 
   function tokenURI(uint256 id) public view override returns (string memory) {

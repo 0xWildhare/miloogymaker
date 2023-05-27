@@ -103,7 +103,7 @@ function YourAccesories({
           <Button
             type="primary"
             onClick={async () => {
-              
+              console.log("nft", nft);
               try {
                 tx(writeContracts[nft].mintBasicBg(), function (transaction) {
                   setUpdateNftBalance(updateNftBalance + 1);

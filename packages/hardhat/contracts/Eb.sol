@@ -71,7 +71,7 @@ contract Eb is INftMetadata {
         string memory name = string(abi.encodePacked('Miloogy Eyebrows #',id.toString()));
         string memory description = "basic miloogy eyebrows";
         string memory image = Base64.encode(bytes(generateSVGofTokenById(id)));
-        string memory traits;
+        string memory traits = getTraits(id);
 
         return
         string(

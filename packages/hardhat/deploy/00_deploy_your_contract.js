@@ -9,14 +9,18 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  const miloogys = await deploy("Miloogys", {
-    from: deployer,
-    log: true,
-    args: [
-      "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
-      "0xbd5f333c25ba5d6da3863c00ebb219a4f3420325449d1b17b29abff0954bfec6"
-    ]
-  });
+  const miloogys = await ethers.getContract("Miloogys", deployer);
+  // const eyebrows = await ethers.getContract("Eyebrows", deployer);
+  // const eb = await ethers.getContract("Eb", deployer);
+
+  // const miloogys = await deploy("Miloogys", {
+  //   from: deployer,
+  //   log: true,
+  //   args: [
+  //     "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
+  //     "0xbd5f333c25ba5d6da3863c00ebb219a4f3420325449d1b17b29abff0954bfec6"
+  //   ]
+  // });
 
   const background = await deploy("Background", {
     from: deployer,
@@ -27,14 +31,14 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     ]
   });
 
-  const bg = await deploy("Bg", {
-    from: deployer,
-    log: true,
-    args: [
-      miloogys.address,
-      background.address
-    ]
-  });
+  // const bg = await deploy("Bg", {
+  //   from: deployer,
+  //   log: true,
+  //   args: [
+  //     miloogys.address,
+  //     background.address
+  //   ]
+  // });
 
   const eyebrows = await deploy("Eyebrows", {
     from: deployer,
@@ -45,14 +49,16 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     ]
   });
 
-  const eb = await deploy("Eb", {
-    from: deployer,
-    log: true,
-    args: [
-      miloogys.address,
-      eyebrows.address
-    ]
-  });
+  
+
+  // const eb = await deploy("Eb", {
+  //   from: deployer,
+  //   log: true,
+  //   args: [
+  //     miloogys.address,
+  //     eyebrows.address
+  //   ]
+  // });
 
     /*
 
@@ -115,14 +121,54 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   // You don't want to verify on localhost
   
   if (chainId !== localChainId) {
-    await run("verify:verify", {
-      address: miloogys.address,
-      contract: "contracts/Miloogys.sol:Miloogys",
-      constructorArguments: [
-        "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
-        "0xbd5f333c25ba5d6da3863c00ebb219a4f3420325449d1b17b29abff0954bfec6"
-      ],
-    });
+    try{
+      await run("verify:verify", {
+        address: background.address,
+        contract: "contracts/Background.sol:Background",
+        constructorArguments: [
+          "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
+          miloogys.address
+        ],
+      });
+    }catch(e){
+      console.log(e);
+    }
+    try{
+      await run("verify:verify", {
+        address: eyebrows.address,
+        contract: "contracts/Eyebrows.sol:Eyebrows",
+        constructorArguments: [
+          "0xa53A6fE2d8Ad977aD926C485343Ba39f32D3A3F6",
+          miloogys.address
+        ],
+      });
+    }catch(e){
+      console.log(e);
+    }
+    // try{
+    //   await run("verify:verify", {
+    //     address: bg.address,
+    //     contract: "contracts/Bg.sol:Bg",
+    //     constructorArguments: [
+    //       miloogys.address,
+    //       background.address
+    //     ],
+    //   });
+    // }catch(e){
+    //   console.log(e);
+    // }
+  //   try{
+  //     await run("verify:verify", {
+  //       address: eb.address,
+  //       contract: "contracts/Eb.sol:Eb",
+  //       constructorArguments: [
+  //         miloogys.address,
+  //         eyebrows.address
+  //       ],
+  //     });
+  //   }catch(e){
+  //     console.log(e);
+  //   }
   }
   
 };

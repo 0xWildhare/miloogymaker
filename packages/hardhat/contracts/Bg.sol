@@ -78,10 +78,10 @@ contract Bg is INftMetadata {
     }
 
     function tokenURI(uint id) public view override returns(string memory) {
-        string memory name = string(abi.encodePacked('Miloogy Background #',id.toString()));
+      string memory name = string(abi.encodePacked('Miloogy Background #',id.toString()));
       string memory description = "basic miloogy background for OGs only";
       string memory image = Base64.encode(bytes(generateSVGofTokenById(id)));
-      string memory traits;
+      string memory traits = getTraits(id);
 
       return
         string(
