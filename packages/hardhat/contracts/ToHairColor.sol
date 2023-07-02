@@ -25,15 +25,23 @@ library ToHairColor {
         bytes3 value2 = bytes2(predictableRandom[3]) | ( bytes2(predictableRandom[4]) >> 8 ) | ( bytes3(predictableRandom[5]) >> 16 );
         return toColor(value2);
       }
-      uint g = 
-        r >= 80 ? r - (256 - r)/3 : r - 5;
-
+      uint g = r >= 80 ? r - (256 - r)/3 : r - 5;
       
       uint b = 
         r >= 121 ? g - (47 + ((28 * uint256(uint8(value[1])))/255)) : 
-        r >  70 ? (g * uint256(uint8(value[1])))/255 :
+        r >  80 ? (g * uint256(uint8(value[1])))/255 :
         g - 5;
-     
+
+      //this gives better brunette shades
+      if(g > 88 && r + 50 - (14 * b / 10) > 88){
+        g = g -20;
+      }
+
+      //gingers
+      if(r + 50 - (14 * b / 10) <= 88 && r <= 220 && r >= 80){
+        g = g * 10 / 16;
+        b = b / 2;
+      }
 
       bytes3 newValue = uints2bytes(r,g,b);
 

@@ -41,7 +41,7 @@ function YourAccesories({
 
   const totalSupply = useContractReader(readContracts, nft, "totalSupply");
   if (DEBUG) console.log("🤗 totalSupply:", totalSupply);
-  const nftLeft = 1000;// - totalSupply;
+  const nftLeft = 1000 - totalSupply;
 
   useEffect(() => {
     const updateBalances = async () => {
